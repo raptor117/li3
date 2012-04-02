@@ -161,6 +161,26 @@ int  searchCamiao (camioes frota,char *matricula,void ***elems,int *n) {
 }
 
 
+int save_camioes(camioes cls) {
+	int valor=OK,i;
+	Nodo_ll aux;
+	FILE *f;
+	f=fopen("trucks.txt","w");
+	if(f==NULL) {
+		perror("fopen");
+		valor=NON_ER;
+	}
+	for (i=0;i<cls->ids;i++) {
+		aux=cls->frota->tabela[i];
+		while (aux !=NULL) {
+			camiao a=((camiao)(aux->data));
+			fprintf(f,"%s|%s|%s;\n",a->matricula,a->custokm,a->local);
+			aux = aux->next;
+		}
+	}
+	return 0;
+}
+
 int main(){
 	
 	camiao novo;
@@ -180,6 +200,7 @@ int main(){
 		
 		
 	}
+	save_camioes(frota);
 	
 	imprimetab(frota->frota);
 	
