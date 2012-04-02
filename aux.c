@@ -24,6 +24,47 @@ char * rand_str(char * dst,int    size) {
 	return dst;
 }
 
+
+void gera_matric(char *dst) {
+	
+	static const char text[] ="ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	//printf("%d",rand()%27);
+	dst[0]=text[rand()%26];
+	dst[1]=text[rand()%26];
+	dst[2]='-';
+	dst[3]= (char)(((int)'0')+rand()%9);
+	dst[4]=(char)(((int)'0')+rand()%9);
+	dst[5]='-';
+	dst[6]=(char)(((int)'0')+rand()%9);
+	dst[7]=(char)(((int)'0')+rand()%9);	
+	dst[8]='\0';
+	
+		
+}
+
+void gera_custo(char *dst) {
+	
+	static const char text[] ="1234567890";
+	//printf("%d",rand()%27);
+	dst[0]=text[rand()%9];
+	dst[1]=text[rand()%9];
+	dst[2]='\0';
+	
+
+	
+		
+}
+
+
+
+
+
+void clear_string(char *dst,int n){
+	int i;
+	for(i=0;i<n;i++){
+		dst[i]=' ';
+	}
+}
 int max(int a,
                  int b) {
 	int valor;

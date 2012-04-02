@@ -105,7 +105,7 @@ int InsereCamiao(camiao cam,camioes *frta) {
 		valor=NO_INI;
 	} else {
 		cam->ide=(*frta)->ids;
-		Insere(&(*frta)->frota,cam);
+		Insere_Hash(&(*frta)->frota,cam);
 		(*frta)->ids++;
 	}
 	return valor;
@@ -122,7 +122,7 @@ int mudarLocalidade(camioes frota,char *matricula,char *local) {
 		camiao aux2;
 		NovoCamiao(&aux2,matricula,"","");
 		
-		getElem(frota->frota,aux2,&elems,&n,&compareCam);
+		getElems(frota->frota,aux2,&elems,&n,&compareCam);
 		if(n==1){
 	    strncpy(((camiao)elems[0])->local,local,
 		          	max(strlen(aux2->local),strlen(local)));
@@ -154,8 +154,33 @@ int  searchCamiao (camioes frota,char *matricula,void ***elems,int *n) {
 	
 		camiao aux2;
 		NovoCamiao(&aux2,matricula,"","");
-		valor=getElem(frota->frota,aux2,elems,n,&compareCam);
+		valor=getElems(frota->frota,aux2,elems,n,&compareCam);
 		free(aux2);
 	}
 	return valor;
+}
+
+
+int main(){
+	
+	camiao novo;
+	camioes frota;
+	char matricula[10];
+	char custo[2];
+	int i;
+	
+	
+	NovaFrota(&frota,10000);
+	
+	for(i=0;i<20000;i++){
+		gera_matric(matricula);
+		gera_custo(custo);
+		NovoCamiao(&novo,matricula,custo,"");
+		InsereCamiao(novo,&frota);
+		
+		
+	}
+	
+	imprimetab(frota->frota);
+	
 }
