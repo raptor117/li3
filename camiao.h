@@ -5,8 +5,10 @@
 #define NO_INI 2 /*uma estrutura nao foi inicializada*/
 #define IGUAL 5
 #define NON_ER 3
+#define NO_FILE 6
 #define ENCONTROU 7
 #define MAXS 100
+
 
 #include "hash_ll.h"
 #include "aux.h"

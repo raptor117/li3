@@ -161,6 +161,50 @@ int  searchCamiao (camioes frota,char *matricula,void ***elems,int *n) {
 }
 
 
+int load_camioes(camioes *cls,char *path) {
+	int valor=OK,fdin;
+	char *buffer,*b;
+	buffer=malloc(200*sizeof(char));
+	b=buffer;
+	FILE *f;
+	char matricula[MAXS],custo[MAXS],local[MAXS];
+	if(path==NULL) {
+		valor =NO_FILE;
+	} else {
+		f=fopen(path,"r");
+		/*abre o ficheiro apenas para ler*/
+		if(f ==NULL) {
+			valor=NON_ER;
+		} else {
+			while(fgets(buffer,200,f)!=NULL) {
+				int t=strlen(buffer);
+				buffer[t-2]='\0';
+				buffer[t-1]='\0';
+				//printf("%s\n",buffer);
+				//printf("-------\n");
+				camiao cam;
+				char *token;
+				token=strsep(&buffer,"|");
+				memcpy(matricula,token,strlen(token)+1);
+				//printf("%s\t\t",token);printf("%s\n",cnb);
+				token=strsep(&buffer,"|");
+				memcpy(custo,token,strlen(token)+1);
+				//printf("%s\t\t",token);printf("%s\n",nome);
+				token=strsep(&buffer,"|");
+				memcpy(local,token,strlen(token)+1);
+				//printf("%s\t\t",token);printf("%s\n",email);
+				NovoCamiao(&cam,matricula,custo,local);
+				//p	printf("%p",usr);
+				InsereCamiao(cam,cls);
+				//printf("\n\n");
+				buffer=b;
+				memset(b,0,200*sizeof(char));
+			}
+		}
+	}
+	return valor;
+}
+
 int save_camioes(camioes cls) {
 	int valor=OK,i;
 	Nodo_ll aux;
@@ -189,17 +233,18 @@ int main(){
 	char custo[2];
 	int i;
 	
-	
 	NovaFrota(&frota,10000);
+	load_camioes(&frota,"trucks.txt");
 	
-	for(i=0;i<20000;i++){
+	
+/*	for(i=0;i<20000;i++){
 		gera_matric(matricula);
 		gera_custo(custo);
 		NovoCamiao(&novo,matricula,custo,"");
 		InsereCamiao(novo,&frota);
 		
 		
-	}
+	}*/
 	save_camioes(frota);
 	
 	imprimetab(frota->frota);
