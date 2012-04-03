@@ -313,11 +313,13 @@ int removerCidade(ControlCid cids, Cidade cid) {
 
 
 int loadCaminho(ControlCid cids,int orig,int dest) {
-	int valor=OK,ido,idd;
+	int valor=OK;
 	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL) {
 		valor=NO_INI;
 	} else {
-			valor =insere_lig(&(cids->ligacoes),ido,idd,NULL);
+	//	printf("%d %d\n",orig,dest);
+		int 
+			valor =insere_lig(&(cids->ligacoes),orig,dest,NULL);
 		}
 	
 	return valor;
@@ -363,14 +365,15 @@ int load_cidades(ControlCid *cls,char *path) {
 						if(token==NULL){}
 						else{
 						memcpy(dest,token,strlen(token)+1);
-						loadCaminho(*cls,atoi(id),atoi(dest));
+						//printf("%d %d\n",(int) atoi(id),(int) atoi(dest));
+						loadCaminho(*cls,(int)atoi(id),(int)atoi(dest));
 						}
 						
 						
 						
 						
 					}
-					printf("\n");
+				//	printf("\n");
 					//printf("%s\t\t",token);printf("%s\n",email);
 					//p	printf("%p",usr);
 					//printf("\n\n");
@@ -384,11 +387,17 @@ int load_cidades(ControlCid *cls,char *path) {
 	
 	
 int main(){
+	int i=0;
 	ControlCid novas;
 	novoContCid(&novas,2000);
 	load_cidades(&novas,"cities.txt");
 	imprimetab(novas->cidades);
-//	visualiza(novas->ligacoes);
+	visualiza(novas->ligacoes);
+	int distancias[novas->ligacoes->size];
+	getMindist(1,&novas->ligacoes,distancias);
+//	for(i=0;i<novas->ligacoes->size;i++){
+//		printf("%d",distancias[i]);
+//	}
 	
 	
 }

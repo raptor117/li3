@@ -33,7 +33,6 @@ int inicializa(int size,Graph *graph,int (*libertar)(void *),
 
 
 int Cria_aresta(Aresta *destino,int dest, void *data){
-	
 	int valor =OK;
 	Aresta nova=(Aresta) malloc(sizeof(struct sAresta));
 	
@@ -52,6 +51,7 @@ int Cria_aresta(Aresta *destino,int dest, void *data){
 
 int add_lig(Graph *g, Aresta *root,void *data,int dest){
 	int valor =OK;
+	//printf("%p %p %d\n",*root,data,dest);
 	if(*root==NULL){valor=Cria_aresta(root,dest,data);}/*se for null cria*/
 	else{
 		if((*root)->dest==dest){ valor =(*g)->switx((*root)->data,data);}/*se for igual substitui a informacao*/
@@ -216,6 +216,7 @@ int dijkstra(int s,Graph g,int dist[g->size][g->size],int d[g->size]) {
 				}
 			}
 		}
+	
 	}
 	return valor;
 }
@@ -231,7 +232,7 @@ int getMindist(int source,Graph *g,int d[(*g)->size]) {
 			int custos[(*g)->size][(*g)->size];
 			int j[(*g)->size],i;
 			convertGraphtoMatrix(g,custos);/*coloca o grafo na matrix custos*/
-			dijkstra(source,*g,custos,j);/*calcula os caminhos mais curtos*/
+		//	dijkstra(source,*g,custos,j);/*calcula os caminhos mais curtos*/
 		}
 	}
 	return valor;
@@ -255,7 +256,8 @@ int insere_lig(Graph *g,int origem,int destino,void *data){
 		if(origem>destino){valor=aumentaGraph(*g,origem);valor=add_lig(g,&(*g)->adj_list[origem],data,destino);}
 		else{valor=aumentaGraph(*g,destino);valor=add_lig(g,&(*g)->adj_list[origem],data,destino);}
 	       	}
-			else{ 
+			else{
+			
 			valor=add_lig(g,&(*g)->adj_list[origem],data,destino);
 		}
 		
