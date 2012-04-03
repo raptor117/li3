@@ -3,16 +3,15 @@
 #define OK 0 /*operacao realizada com sucesso*/
 #define NO_MEM 1 /*nao consegue alocar memoria*/
 #define NO_INI 2 /*uma estrutura nao foi inicializada*/
-#define MAIOR 4
 #define IGUAL 5
-#define MENOR 6
 #define ENCONTROU 7
 #define NO_CID 8
-#define MAXS 40
+#define NON_ER 9
+#define MAXS 100
 
 
 #include "aux.h"
-#include "hash.h"
+#include "hash_ll.h"
 #include "graph.h"
 #include "camiao.h"
 #include <stdio.h>
@@ -24,16 +23,16 @@ typedef struct scidade{
    
     int ide;/*id privado do camiao*/
     char *nome;/*nome da cidade*/
-    genLL  *camioes;/*todos os camioes na cidade*/
+    //genLL  *camioes;/*todos os camioes na cidade*/
    
     }*Cidade;
 
 /*estrutura de uma ligacao entre cidades*/
 typedef struct sCustos{
 	
-	char *tipo_transp;/*nome do transporte*/
+	//char *tipo_transp;/*nome do transporte*/
 	int custo;/*custo de usar o tranporte*/
-	struct sCustos *prox;/*proxo transporte neste caminho*/
+	//struct sCustos *prox;/*proxo transporte neste caminho*/
 	
 }*Custos;
 
@@ -86,13 +85,13 @@ int imprimeTransp(void *a);
 /*
 Devolve o elemento chave usado na funcao de hash neste caso o tamanho da string inserida
 */
-int keyCidade(void *elem);
+char *keyCidade(void *elem);
 
 /*
 Cria uma nova estrutra de controlo de cidades, onde aloca o espaco das estruturas 
 Retorna OK ou NO_MEM
 */
-unsigned  int novoContCid(ControlCid *cntcid,int nCidades);	
+int novoContCid(ControlCid *cntcid,int nCidades);	
 
 /*
 Aloca o espaco para uma nova cidade e guarda o nome desta

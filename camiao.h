@@ -4,7 +4,7 @@
 #define NO_MEM 1 /*nao consegue alocar memoria*/
 #define NO_INI 2 /*uma estrutura nao foi inicializada*/
 #define IGUAL 5
-#define NON_ER 3
+#define NON_ER 9
 #define NO_FILE 6
 #define ENCONTROU 7
 #define MAXS 100

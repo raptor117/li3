@@ -7,7 +7,7 @@ int imprimeCam (void *a) {
 	if(aa==NULL) {
 		valor=NO_INI;
 	} else {
-		printf("Camiao nº%8d\nMatricula:%8s |Custo/Km:%8s |Local:%8s\n\n",aa->ide,
+		printf("Camiao nº%8d\nMatricula:%8s |Custo/Km:%2s |Local:%8s |\n\n",aa->ide,
 		               aa->matricula,aa->custokm,aa->local);
 	}
 	return valor;
