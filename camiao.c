@@ -192,10 +192,10 @@ int load_camioes(camioes *cls,char *path) {
 				token=strsep(&buffer,"|");
 				memcpy(custo,token,strlen(token)+1);
 				//printf("%s\t\t",token);printf("%s\n",nome);
-				token=strsep(&buffer,"|");
-				memcpy(local,token,strlen(token)+1);
+			//	token=strsep(&buffer,"|");
+			//	memcpy(local,token,strlen(token)+1);
 				//printf("%s\t\t",token);printf("%s\n",email);
-				NovoCamiao(&cam,matricula,custo,local);
+				NovoCamiao(&cam,matricula,custo,"");
 				//p	printf("%p",usr);
 				InsereCamiao(cam,cls);
 				//printf("\n\n");
@@ -247,7 +247,7 @@ int main(){
 		
 		
 	}
-	save_camioes(frota);
+	//save_camioes(frota);
 	
 	imprimetab(frota->frota);
 	

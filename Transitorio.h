@@ -12,5 +12,5 @@ typedef struct sTrans{
 
 
 /*Cria um novo transitorio*/
-unsigned int novo_transitorio(Trans *dest);
+int novo_transitorio(Trans *dest);
 	
