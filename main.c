@@ -9,7 +9,7 @@ int main() {
 
 	novo_transitorio(&trans);
 	loadData(&trans);
-	atribCity(trans);	
+	//atribCity(trans);	
 	//menu(trans);
 	
 	return 1;

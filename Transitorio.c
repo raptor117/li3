@@ -29,20 +29,24 @@ int loadData(Trans *dest){
 	return valor;
 }
 
+
+/*funcao utilizada para atribuir uma cidade aleatoria aos camioes
 int atribCity(Trans dest) {
 	char citis[(int)dest->cidz->cidades->tsize][MAXS];
 	char *buffer,*b;
 	buffer=malloc(200*sizeof(char));
 	int i=0,j,valor;
+	Nodo_ll aux;
 	b=buffer;
 	FILE *f,*h;
 	char nome[MAXS];
 
 		f=fopen("cities.txt","r");
-		h=fopen("trucks2.txt","r");
+		h=fopen("trucks2.txt","w");/*
 		
 		/*abre o ficheiro apenas para ler*/
-		if(f ==NULL) {printf("Entrou\n");
+		/*
+		if(f ==NULL || h==NULL) {printf("Entrou\n");
 			valor=NON_ER;
 		} else {
 			while(fgets(buffer,200,f)!=NULL) {
@@ -54,19 +58,23 @@ int atribCity(Trans dest) {
 				token=strsep(&buffer,"|");
 				token=strsep(&buffer,"|");
 				memcpy(nome,token,strlen(token)+1);
-			//	printf("%s\n",nome);
 				strncpy(citis[i],nome,strlen((nome)));
 				i++;
-				
+				buffer=b;
+				memset(b,0,200*sizeof(char));
 				
 			}
-			buffer=b;
-			memset(b,0,200*sizeof(char));
-		}
-		
-		for(j=0;j<i;j++){
-			printf("%s\n",citis[j]);
-		}
-		
-		
-}
+			
+			for (j=0;j<dest->cmz->frota->tsize;j++) {
+				aux=dest->cmz->frota->tabela[j];
+				while (aux !=NULL) {
+					camiao a=((camiao)(aux->data));
+					fprintf(h,"%s|%s|%s|\n",a->matricula,a->custokm,citis[rand()%i]);
+					aux = aux->next;
+				}
+			}
+			
+			
+
+		}	
+}*/
