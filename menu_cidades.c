@@ -21,15 +21,28 @@ void head_Localidades(){
 }
 
 
-void scan_cidade(char *nome){
-	
-		printf("Introduza o nome da cidade: ");
+void scan_cidade_origem(char *nome){
+		fflushstdin();
+		printf("Introduza o nome da cidade origem: ");
 		fgets(nome,MAXS,stdin);
 }
 
 
-void scan_dist(int *custo){
+void scan_cidade_destino(char *nome){
+		fflushstdin();
+		printf("Introduza o nome da cidade destino: ");
+		fgets(nome,MAXS,stdin);
+}
+
+void scan_dist(int *km){
 	
 		printf("\nIntroduza a distancia entre as cidades: ");
+		scanf("%d",km);
+}
+
+
+void scan_custo(int *custo){
+	
+		printf("\nIntroduza a custo entre as cidades: ");
 		scanf("%d",custo);
 }

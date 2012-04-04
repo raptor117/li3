@@ -61,6 +61,23 @@ int add_lig(Graph *g, Aresta *root,void *data,int dest){
 }
 
 
+int veCaminho(Graph g,int orig,int dest) {
+	int i=0,valor=OK,enc=0;
+	if(g==NULL ||g->adj_list ==NULL) {
+		valor=NO_INI;
+	} else {
+		Aresta e;
+		e=g->adj_list[orig];
+		while (e && enc==0) {
+			if(e->dest=dest) {
+				printf("|origem:%d|destino:%d|\n",i,e->dest);
+				g->imprime(e->data);
+				enc=1;
+			}
+			e = e->next;
+		}
+	}
+}
 int visualiza(Graph g) {
 	int i=0,valor=OK;
 	if(g==NULL ||g->adj_list ==NULL) {
@@ -81,6 +98,20 @@ int visualiza(Graph g) {
 	return valor;
 }
 
+/*percorre o grafo e remove as cidade que tem ligacao a uma cidade*/
+int removeLigs(Graph *g,int dest){
+	int i=0;
+	int valor=OK;
+	if(g==NULL || (*g)->adj_list ==NULL || dest>(*g)->size){valor =NO_INI;}
+	else{
+		for(i=0;i<(*g)->size;i++){
+			valor=removeAresta(g,i,dest);
+		}
+		
+	}
+	return valor;
+	
+}
 
 int removeAresta(Graph *g,int origem,int dest) {
 	Aresta ant=NULL,actual=(*g)->adj_list[origem];

@@ -57,8 +57,8 @@ void menu_cli(Trans transitorio){
 }
 
 void menu_loc(Trans transitorio){
-    int opcao,origem,destino,custo;
-	char cid[MAXS];
+	int opcao,km,custo,valor;
+	char origem[MAXS],destino[MAXS];
     
 	do{
 		
@@ -66,37 +66,71 @@ void menu_loc(Trans transitorio){
         
         
         if( opcao == 1){
+			scan_cidade_origem(origem);
+			scan_cidade_destino(destino);
+			scan_dist(&km);
+			scan_custo(&custo);
+			valor=insereCaminho(transitorio->cidz,origem,destino,km,custo);
+			if(valor==OK){printf("Caminho inserido\n");}
+			else{printf("Caminho nao inserido,verifique se os dados esta correctos\n");}
            
         }else if( opcao == 2){
+			scan_cidade_origem(origem);
+			Cidade novo;
+			novaCidade(&novo,origem);
+			valor=insereCidade(novo,&transitorio->cidz);
+			if(valor==OK){printf("Cidade inserida\n");}
+			else{printf("Cidade nao inserida,verifique se os dados esta correctos\n");}
 		
 			
         }else if( opcao == 3){
+			scan_cidade_origem(origem);
+			scan_cidade_destino(destino);
+			scan_dist(&km);
+			scan_custo(&custo);
+			valor=mudarCustoCid(transitorio->cidz,origem,destino,km,custo);
+			if(valor==OK){printf("Custo mudado\n");}
+			else{printf("Custo nao mudado,verifique se os dados esta correctos\n");}
+			
+			
             
 			
         }else if( opcao == 4){
+			scan_cidade_origem(origem);
+			valor=removerCidade(transitorio->cidz,origem);
+			if(valor==OK){printf("Cidade removida\n");}
+			else{printf("Cidade nao removida,verifique se os dados esta correctos\n");}
+			
 			
 			
 		}else if( opcao == 5){
-			
-			
+			imprimetab(transitorio->cidz->cidades);
+				
 		}else if( opcao == 6){
-			/* editar cidade */
+			scan_cidade_origem(origem);
+			scan_cidade_origem(destino);
+			vePath(transitorio->cidz,origem,destino);
 			
 		}else if( opcao == 7){
-			//imprimetab(cids->cidades);
+			void **data;
+			int l;
+			scan_cidade_origem(origem);
+			//printf("%s",origem);
+			valor=searchCity(transitorio->cidz,origem,&data,&l);
+			if(valor ==OK && l ==1){
+				imprimeCid(data[0]);
+			}
+
 			
 		}else if( opcao == 8){
-			/* pesquisar caminho */
-			
-		}else if( opcao == 9){
 			
 			
-	    }else if( opcao == 10){
+	    }else if( opcao == 9){
 			/* Localidade mais requisitada */
 			
-		}else if( opcao == 12){
+		}else if( opcao == 10){
 			/* Localidade menos requisitada */
-		}		system("clear"); 
+		}	//	system("clear"); 
 	}while(opcao != 13);
 }
 	

@@ -152,9 +152,11 @@ int remove_hash(Hash *ptr, void *data) {
 			}
 			/*printf("%d\n",actual->cost);*/
 		}
+		
 		(*ptr)->remove_data(actual->data);
 		free(actual);
 		actual=NULL;
+		(*ptr)->nnodo--;
 	}
 	return valor;
 }
@@ -201,7 +203,9 @@ int nElems(Nodo_ll k,void *data,int *n,	int (*cmp) (void*, void*)) {
 }
 int getElems(Hash hash,void *data, void ***elems,int *n,int (*cmp) (void*, void*)) {
 	int valor =OK,num=0,pos=fHash(hash->key(data),hash->tsize),k=0;
+	//printf("%s %d",hash->key(data),hash->tsize);
 	void **lista;
+
 	if(hash ==NULL ||hash->tabela ==NULL || data ==NULL || n ==NULL) {
 		valor=NO_INI;
 	} else {

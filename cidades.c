@@ -35,9 +35,12 @@ int compareCid(void *a,void *b) {
     Cidade aa,bb;
     aa= (Cidade) a;
     bb= (Cidade) b;
-
+	if(a!=NULL && b !=NULL){
+		print("%s\n",aa->nome);
+		print("%s\n",bb->nome);
+	}
     if((strncmp(aa->nome,bb->nome,max(sizeString(aa->nome),sizeString(bb->nome)))==0))
- 	{
+		{
         valor=IGUAL;
     }
     return valor;
@@ -178,27 +181,136 @@ int insereCidade(Cidade cid,ControlCid *cids) {
     } else {
 		if(cid->ide==0){
         cid->ide=(*cids)->ids;}
+        (*cids)->ids++;
 
         Insere_Hash(&(*cids)->cidades,cid);
-        (*cids)->ids++;
 		//printf("%d\n",(*cids)->ids);
     }
     return valor;
 }
 
+int getId(ControlCid cids,char *cid,int *id){
+	int valor =OK;
+	int n;
+	void **data;
+	if(cids ==NULL || cids->cidades ==NULL || cids->ligacoes ==NULL || cid ==NULL){
+		valor =NO_INI;
+	}
+	else{
+		Cidade novo;
+		novaCidade(&novo,cid);
+		valor=getElems(cids->cidades,novo,&data,&n,&compareCid);
+		if(n==1){*id= ((Cidade)data[0])->ide;}
+		
+	}
+	return valor;
+	
+}
 
-int insereCaminho(ControlCid cids,char *orig,char *dest) {
-	int valor=OK;
-	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL) {
+
+int insereCaminho(ControlCid cids,char *orig,char *dest,int km,int custo) {
+	int valor=OK,ori,des;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL || 
+			orig ==NULL || dest ==NULL) {
 		valor=NO_INI;
 	} else {
-	//	printf("%d %d\n",orig,dest);
-		
-			valor=insere_lig(&(cids->ligacoes),orig,dest,NULL);
+			if(getId(cids,orig,&ori)==OK && getId(cids,dest,&des)==OK){
+				Custos novo;
+				novoCusto(&novo,km,custo);
+				valor=insere_lig(&(cids->ligacoes),ori,des,novo);}
+				else{valor =NO_INI;}
 		}
 	
 	return valor;
 }
+
+int removeCaminho(ControlCid cids,char *orig,char *dest){
+	
+	int valor=OK,ori,des;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL || 
+			orig ==NULL || dest ==NULL) {
+		valor=NO_INI;
+	} else {
+		if(getId(cids,orig,&ori)==OK && getId(cids,dest,&des)==OK){
+			valor=removeAresta(&cids->ligacoes,ori,des);}
+			else{valor =NO_INI;}
+		}
+}
+
+
+
+int mudarCustoCid(ControlCid cids,char *orig,char *dest, int custo,int km) {
+	int valor=OK,ori,des;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL||orig ==NULL || dest ==NULL) {
+		valor=NO_INI;
+	} else {
+		
+		if(getId(cids,orig,&ori)==OK && getId(cids,dest,&des)==OK){
+		
+			Custos novo;
+			novoCusto(&novo,custo,km);
+			valor =mudarCusto(&(cids->ligacoes),ori,des,novo);
+		}
+	}
+	return valor;
+}
+
+
+int removerCidade(ControlCid cids,char *nome) {
+	int valor=OK;
+	int orig;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL ||nome ==NULL ) {
+		valor=NO_INI;
+	} else {
+			if(getId(cids,nome,&orig)==OK ){
+				Cidade nova;
+				novaCidade(&nova,nome);
+				remove_hash(&cids->cidades,nova);/*remove da hash*/
+				removeEdge(&cids->ligacoes,orig);/*custo da origem para outras cidades*/
+				removeLigs(&cids->ligacoes,orig);/*remove do graph cidade com ligacao a orig*/
+				
+				
+			}
+		}
+	
+	return valor;
+}
+
+int vePath(ControlCid cids,char *orig,char *dest){
+	
+	int valor=OK,ori,des;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL||orig ==NULL || dest ==NULL) {
+		valor=NO_INI;
+	} else {
+		if(getId(cids,orig,&ori)==OK && getId(cids,dest,&des)==OK){
+			
+			valor=veCaminho(cids->ligacoes,orig,dest);
+		}
+		
+	
+	}
+	
+	return valor;
+	
+}
+
+
+int searchCity(ControlCid cids,char *nome,void ***elemes,int *n) {
+    int valor=OK;
+    if(cids ==NULL || cids->cidades ==NULL || nome ==NULL) {
+        valor =NO_INI;
+    } else {
+		Cidade cid;
+		novaCidade(&cid,nome);
+		valor=getElems(cids->cidades,cid,elemes,n,&compareCid);
+	//	printf("%d",*n);
+	}
+    
+    return valor;
+}
+
+
+
 /*
 int existeCidade(ControlCid cids, char *nome){
 	int valor=OK;
@@ -215,42 +327,6 @@ int existeCidade(ControlCid cids, char *nome){
 	
 }
 
-int getIDcid(ControlCid cids,char *nome,int *id){
-	
-	int valor=OK;
-    if(cids ==NULL || cids->cidades ==NULL || nome ==NULL) {
-        valor =NO_INI;
-    } else {
-		Cidade cid;
-		novaCidade(&cid,nome);
-		valor=getElem(cids->cidades,(void *)&cid,&compareCid);
-		
-			if(valor==ENCONTROU){*id=cid->ide;}
-		
-		}
-		
-
-    return valor;
-	
-	
-}
-int searchCidade(ControlCid cids,char *nome) {
-    int valor=OK;
-    if(cids ==NULL || cids->cidades ==NULL || nome ==NULL) {
-        valor =NO_INI;
-    } else {
-		Cidade cid;
-		novaCidade(&cid,nome);
-		valor=getElem(cids->cidades,(void*)&cid,&compareCid);
-	
-		if(valor==ENCONTROU){
-			valor =imprimeCid(cid);
-			}
-		}
-    
-    return valor;
-}
-
 
 
 
@@ -265,40 +341,10 @@ int removerCaminho(ControlCid cids,int ido,int idd) {
 }
 
 
-int mudarCustoCid(ControlCid cids,int ido,int idd, int distancia,char * tipoTrans) {
-	int valor=OK;
-	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL) {
-		valor=NO_INI;
-	} else {
-		if(ido>cids->ids ) {
-			valor=NO_CID;
-		} else {
-			Custos cus =(Custos) malloc(sizeof(struct sCustos));
-			cus->tipo_transp =(char *) malloc(sizeString(tipoTrans)*sizeof(char));
-			cus->custo=distancia;
-			strncpy(cus->tipo_transp,tipoTrans, sizeString(tipoTrans));
-			valor =mudarCusto(&(cids->ligacoes),ido,idd,cus);
-		}
-	}
-	return valor;
-}
 
 
-int removerCidade(ControlCid cids, Cidade cid) {
-	int valor=OK;
-	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL ||cid ==NULL ) {
-		valor=NO_INI;
-	} else {
-		if(cid->ide>cids->ids) {
-			valor=NO_CID;
-		} else {
-			int pos =(int) cid->ide;
-			removElemHash(cids->cidades,cid,&compareCid);
-			cids->ligacoes->adj_list[pos]==NULL;
-		}
-	}
-	return valor;
-}*/
+
+*/
 
 
 int novoCusto(Custos *c,int km,int custo){
@@ -339,6 +385,8 @@ int loadCaminho(ControlCid cids,int orig,int dest) {
 	
 	return valor;
 }
+
+
 
 
 int load_custos(ControlCid *cls,char *path) {
@@ -496,7 +544,6 @@ int save_cidades(ControlCid cls) {
 	}
 	return 0;
 }	
-
 
 int save_costs(ControlCid cls) {
 	int valor=OK,i;

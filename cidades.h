@@ -115,17 +115,16 @@ Retorna OK, NO_INI*/
 int getIDcid(ControlCid cids,char *nome,int *id);
 
 /*
-Procura uma cidade e imprime a informacao desta
+Procura uma cidade e coloca em elems
 Retorna OK, NO_INI e ENCONTROU
 */
-int searchCidade(ControlCid cids,char *nome);
+int searchCity(ControlCid cids,char *nome,void ***elsems,int *n);
 
 /*
 Cria um caminho entre duas localidades, temos que indicar a distancia e o nome do transporte
 Retorna OK, NO_INI e NO_CID
 */
-int insereCaminho(ControlCid cids,char *orig,char *dest,int distancia,char *tipoTrans);
-
+int insereCaminho(ControlCid cids,char *orig,char *dest,int km,int custo);
 /*
 Remove o caminho entre dois locais
 Devolve OK, ou NO_INI
@@ -136,11 +135,11 @@ int removerCaminho(ControlCid cids,int ido,int idd);
 Muda o custo de um caminho entre duas cidades,
 Retorna o valor OK,NO_INI ou NO_CID 
 */
-int mudarCustoCid(ControlCid cids,int ido,int idd, int distancia,char * tipoTrans);
+int mudarCustoCid(ControlCid cids,char *orig,char *dest, int custo,int km);
 
 /*
 Remove uma cidade da tabela de hash e poem o apontador do grafo a NULL
 Retorna OK,NO_INI ou NO_CID 
 */
-int removerCidade(ControlCid cids, Cidade cid);
+int removerCidade(ControlCid cids,char *nome);
 

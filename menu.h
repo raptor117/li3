@@ -19,31 +19,29 @@ static Menu start = {
 	4,
 	{"Menu Principal",
 	"Menu Camiões", 
-	"Menu Cidades",	
+	"Menu Cidaodes",	
 	"Menu Clientes",
 	"Sair"}
 };
 
 static Menu truck = {
-	6,
+	5
+,
 	{"Menu Camiões",
 	"Inserir",
-	"Remover",
-	"Editar",	
+	"Remover",	
 	"Ver todos", 
 	"Pesquisar",
 	"Voltar ao Menu Principal"}
 };
 
 static Menu citys = {
-	13,
+	11,
 	{"Menu Cidades",
 	"Inserir Caminho",
 	"Inserir Cidade",
-	"Remover Caminho",
-	"Editar Caminho",
-	"Remover Cidade",
-	"Editar Cidade",	
+	"Mudar Custo de caminho",
+	"Remover Cidade",	
 	"Ver todas as cidades ", 
 	"Pesquisar Caminho",
 	"Pesquisar Cidade",
