@@ -141,7 +141,7 @@ int removeCamiao(camioes frota,char *matricula){
 		camiao novo;
 		valor=NovoCamiao(&novo,matricula,"","");
 		if(valor==OK){
-			remove_hash(&frota->frota,novo);}
+			valor=remove_hash(&frota->frota,novo);}
 		free (novo);
 	}
 	return valor;

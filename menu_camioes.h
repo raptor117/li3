@@ -9,4 +9,4 @@ void scan_matricula(char *matric);
 void scan_localidade(char *localidade);
 
 /*pede o custo por KM de um camiao e guarda em cKM*/
-void scan_custoKM(int *cKM);
+void scan_custoKM(char *cKM);

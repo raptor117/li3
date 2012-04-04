@@ -1,10 +1,9 @@
-
 #include "menu.h"
 #include "string.h"
 #include "stdio.h"
 
 int escolher(Menu *m){
-    system("clear");
+    //system("clear");
 	int i, option, op = m->nr_op;
     /* Imprime o titulo do menu */
     printf("\n\n -- %s --\n\n", m->option[0]);

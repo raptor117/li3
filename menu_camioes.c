@@ -2,23 +2,25 @@
 
 
 void scan_matricula(char *matricula){
-	   // fflushstdin();
+	   fflushstdin();
 		printf("Introduza a matricula do camiao: ");
 		fgets(matricula,9,stdin);
 	   // fixString(matricula,MAXS);
 }
 
 void scan_localidade(char *localidade){
-	   //fflushstdin();
+	   	fflushstdin();
 		printf("Introduza a localidade original do camiao: ");
 		fgets(localidade,MAXS,stdin);
-	    fixString(localidade,MAXS);
+	    //fixString(localidade,MAXS);
 		
 }
 
-void scan_custoKM(int *cKM){
+void scan_custoKM(char *km){
+	fflushstdin();
 	printf("Introduza o custo por KM do camiao: ");
-	scanf("%d",cKM);
+	fgets(km,MAXS,stdin);
+   // fixString(localidade,MAXS);
 	
 	
 }

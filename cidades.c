@@ -185,6 +185,20 @@ int insereCidade(Cidade cid,ControlCid *cids) {
     }
     return valor;
 }
+
+
+int insereCaminho(ControlCid cids,char *orig,char *dest) {
+	int valor=OK;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL) {
+		valor=NO_INI;
+	} else {
+	//	printf("%d %d\n",orig,dest);
+		
+			valor=insere_lig(&(cids->ligacoes),orig,dest,NULL);
+		}
+	
+	return valor;
+}
 /*
 int existeCidade(ControlCid cids, char *nome){
 	int valor=OK;

@@ -30,7 +30,7 @@ int loadData(Trans *dest){
 }
 
 
-/*funcao utilizada para atribuir uma cidade aleatoria aos camioes
+/*funcao utilizada para atribuir uma cidade aleatoria aos camioesx
 int atribCity(Trans dest) {
 	char citis[(int)dest->cidz->cidades->tsize][MAXS];
 	char *buffer,*b;

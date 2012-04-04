@@ -100,11 +100,12 @@ void menu_loc(Trans transitorio){
 	}while(opcao != 13);
 }
 	
-	
+/*as coisas do menu estao a funcionar, retirar editar e o ciclo escaxa*/	
 void menu_cam(Trans transitorio){
-		int opcao,ckm;
-		char matricula[MAXS];
-		char local[MAXS];
+		int opcao,valor;
+		char matricula[MAXS],local[MAXS],custo[MAXS];
+		void **data;
+		int n;
 		
 		
 		do{
@@ -113,59 +114,65 @@ void menu_cam(Trans transitorio){
 			
 			
 			if( opcao == 1){
-			/*	scan_matricula(matricula);
+				scan_matricula(matricula);
 				printf("\n");
 				scan_localidade(local);
 				printf("\n");
-				scan_custoKM(&ckm);
+				scan_custoKM(custo);
 				camiao novo;
-				NovoCamiao(&novo,matricula,ckm,local);
-				InsereCamiao(novo,&(transitorio->cmz));*/
+				NovoCamiao(&novo,matricula,custo,local);
+				valor=InsereCamiao(novo,&(transitorio->cmz));
+				if(valor ==OK){printf("Camiao Inserido\n");}
+				else{printf("Camiao nao Inserido,verifique se introduziu os dados correctos\n");}
 				
 			}else if( opcao == 2){
-			/*	scan_matricula(matricula);
+				scan_matricula(matricula);
 				printf("\n");
-				removeCamiao(transitorio->cmz,matricula);*/
+				valor=removeCamiao(transitorio->cmz,matricula);
+				if(valor ==OK){printf("Camiao removido\n");}
+				else{printf("Erro,certefique-se que a matricula esta correcta\n");}
 				
 				
-			}else if( opcao == 3){
-				/* editar */
 				
 			}else if( opcao == 4){
-				//imprimetab(transitorio->cmz->frota);
-				//imprimetab(transitorio->cmz->frota);
-				
+				imprimetab(transitorio->cmz->frota);
 				
 			}else if( opcao == 5){
-				/*pesquisar camiao				*/
+						scan_matricula(matricula);
+						printf("\n");
+						searchCamiao(transitorio->cmz,matricula,&data,&n);
+						if(n==1){imprimeCam(data[0]);}
+						else{printf("Erro,certefique-se que a matricula esta correcta\n");}
+				
+				
+				
 			}
 		//	system("clear"); 
 			/* Este ciclo é terminado quando o utilizador escolha a opção 6 */
-		}while(opcao != 6);
+		}while(opcao != 5);
 	}
 	
-void menu(Trans transitorio){
-	int opcao,origem,destino,custo;
+void menu(Trans transitorio) {
+	int opcao=0,origem,destino,custo;
 	char cid[MAXS];
 	system("clear");
 	logo();
-	do{
-		
-		opcao = escolher(&start);
-					
-		if( opcao == 1){
-			menu_cam(transitorio);
-		}else if( opcao == 2){
-			menu_loc(transitorio);
-		}else if( opcao == 3){
-			menu_cli(transitorio);
-		}
-		system("clear");
-		logo();/* Este ciclo é terminado quando o utilizador escolha a opção 4 */
-	}while(opcao != 4);
-}
+//	while(opcao !=4){
+	opcao = escolher(&start);
 	
-
+		if( opcao == 1) {menu_cam(transitorio);}
+			else {
+			if( opcao == 2) {menu_loc(transitorio);} 
+			else{
+				if( opcao == 3) {menu_cli(transitorio);}
+				}
+			}
+	//	}
+			
+	//	system("clear");
+	//	logo();
+		
+}
 
 
 
