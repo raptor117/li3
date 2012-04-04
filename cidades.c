@@ -79,7 +79,7 @@ int imprimeTransp(void *a){
 		valor=NO_INI;
 	}else{
 		//printf("|Nome do transp:%s |Custo: %d|\n\n",aa->tipo_transp,aa->custo);
-		printf("|Custo: %d|\n\n",aa->custo);
+		printf("|Km:%d||Custo:%d|\n\n",aa->km,aa->custo);
 		
 	}
 	
@@ -112,7 +112,7 @@ char * keyCidade(void *elem) {
     } else {
        
  		valor=NovaHash(nCidades,&novo->cidades,&compareCid,&freeCid,&imprimeCid,&keyCidade);
-        valor=inicializa(nCidades,&(novo->ligacoes),&freeLig,&imprimeTransp, sizeof(struct sCustos),&switx,&getCustotrans);
+        valor=inicializa(nCidades,&novo->ligacoes,&freeLig,&imprimeTransp, sizeof(struct sCustos),&switx,&getCustotrans);
         
 		if(novo->cidades==NULL || novo->ligacoes==NULL) {
             free(novo->cidades);
@@ -182,6 +182,7 @@ int insereCidade(Cidade cid,ControlCid *cids) {
 
         Insere_Hash(&(*cids)->cidades,cid);
         (*cids)->ids++;
+		//printf("%d\n",(*cids)->ids);
     }
     return valor;
 }
@@ -238,29 +239,6 @@ int searchCidade(ControlCid cids,char *nome) {
 }
 
 
-int insereCaminho(ControlCid cids,char *orig,char *dest,int distancia,char *tipoTrans) {
-	int valor=OK,ido,idd;
-	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL) {
-		valor=NO_INI;
-	} else {
-
-			valor=getIDcid(cids,orig,&ido);
-			valor=getIDcid(cids,dest,&idd);
-			if(valor !=ENCONTROU ||	cids->ids<ido || cids->ids<idd) {
-				valor = NO_CID;
-			} else {
-				
-				Custos cus =(Custos) malloc(sizeof(struct sCustos));
-				cus->tipo_transp =(char *) malloc(sizeString(tipoTrans)*
-															sizeof(char));
-				cus->custo=distancia;
-				strncpy(cus->tipo_transp,tipoTrans, sizeString(tipoTrans));
-				valor =insere_lig(&(cids->ligacoes),ido,idd,cus);
-			}
-		}
-	
-	return valor;
-}
 
 
 int removerCaminho(ControlCid cids,int ido,int idd) {
@@ -310,7 +288,31 @@ int removerCidade(ControlCid cids, Cidade cid) {
 }*/
 
 
+int novoCusto(Custos *c,int km,int custo){
+	int valor =OK;
+	Custos novo;
+	novo=(Custos) malloc(sizeof(struct sCustos));
+		if(novo ==NULL){valor =NO_MEM;}
+		else{
+			novo->km=km;
+			novo->custo=custo;
+			*c=novo;
+		}
+		return valor;	
+}
 
+int loadCusto(ControlCid cids,int orig,int dest,Custos c){
+	
+	int valor=OK;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL || c==NULL) {
+		valor=NO_INI;
+	} else {
+			valor =insere_lig(&(cids->ligacoes),orig,dest,c);
+		}
+	
+	
+	
+}
 
 int loadCaminho(ControlCid cids,int orig,int dest) {
 	int valor=OK;
@@ -326,13 +328,13 @@ int loadCaminho(ControlCid cids,int orig,int dest) {
 }
 
 
-int load_cidades(ControlCid *cls,char *path) {
+int load_custos(ControlCid *cls,char *path) {
 		int valor=OK,i;
 		char *buffer,*b;
 		buffer=malloc(200*sizeof(char));
 		b=buffer;
 		FILE *f;
-		char id[MAXS],nome[MAXS],dest[MAXS];
+		char origem[MAXS],destino[MAXS],km[MAXS],custo[MAXS];
 		if(path==NULL) {
 			valor =NO_FILE;
 		} else {
@@ -346,37 +348,23 @@ int load_cidades(ControlCid *cls,char *path) {
 					buffer[t-2]='\0';
 					buffer[t-1]='\0';
 
-					Cidade cid;
+					Custos cid;
 					char *token;
 					
 					token=strsep(&buffer,"|");
-					memcpy(id,token,strlen(token)+1);
+					memcpy(origem,token,strlen(token)+1);
 
 					token=strsep(&buffer,"|");
-					memcpy(nome,token,strlen(token)+1);
-					loadCidade(&cid,atoi(id),nome);
-					insereCidade(cid,cls);
-				//	printf("%s|%s",id,nome);
+					memcpy(destino,token,strlen(token)+1);
 					
-
-					while(token!=NULL){
-						token=strsep(&buffer,"|");
-						for(i=0;i<MAXS;i++){dest[i]='\0';}
-						if(token==NULL){}
-						else{
-						memcpy(dest,token,strlen(token)+1);
-						//printf("%d %d\n",(int) atoi(id),(int) atoi(dest));
-						loadCaminho(*cls,(int)atoi(id),(int)atoi(dest));
-						}
-						
-						
-						
-						
-					}
-				//	printf("\n");
-					//printf("%s\t\t",token);printf("%s\n",email);
-					//p	printf("%p",usr);
-					//printf("\n\n");
+					token=strsep(&buffer,"|");
+					memcpy(km,token,strlen(token)+1);
+					
+					token=strsep(&buffer,"|");
+					memcpy(custo,token,strlen(token)+1);
+					novoCusto(&cid,atoi(km),atoi(custo));
+					loadCusto(*cls,atoi(origem),atoi(destino),cid);
+					
 					buffer=b;
 					memset(b,0,200*sizeof(char));
 				}
@@ -386,18 +374,163 @@ int load_cidades(ControlCid *cls,char *path) {
 	}
 	
 	
+	
+int load_cidades(ControlCid *cls,char *path) {
+			int valor=OK,i,k=0;
+			char *buffer,*b;
+			buffer=malloc(200*sizeof(char));
+			b=buffer;
+			FILE *f;
+			char id[MAXS],nome[MAXS],dest[MAXS];
+			if(path==NULL) {
+				valor =NO_FILE;
+			} else {
+				f=fopen(path,"r");
+				/*abre o ficheiro apenas para ler*/
+				if(f ==NULL) {
+					valor=NON_ER;
+				} else {
+					
+					while(fgets(buffer,200,f)!=NULL) {
+							//	k++;
+
+							//	printf("%d\n",k);
+						int t=strlen(buffer);
+						buffer[t-2]='\0';
+						buffer[t-1]='\0';
+
+						Cidade cid;
+						char *token;
+
+						token=strsep(&buffer,"|");
+						memcpy(id,token,strlen(token)+1);
+						token=strsep(&buffer,"|");
+						memcpy(nome,token,strlen(token)+1);
+						loadCidade(&cid,atoi(id),nome);
+						insereCidade(cid,cls);
+					//	printf("%s|%s",id,nome);
+
+
+						while(token!=NULL){
+					
+							
+							token=strsep(&buffer,"|");
+							for(i=0;i<MAXS;i++){dest[i]='\0';}
+							if(token==NULL){}
+							else{
+							memcpy(dest,token,strlen(token)+1);
+							//printf("%d %d\n",(int) atoi(id),(int) atoi(dest));
+							loadCaminho(*cls,(int)atoi(id),(int)atoi(dest));
+							}
+
+
+
+
+						}
+					//	printf("\n");
+						//printf("%s\t\t",token);printf("%s\n",email);
+						//p	printf("%p",usr);
+						//printf("\n\n");
+						buffer=b;
+						memset(b,0,200*sizeof(char));
+					}
+				}
+			}
+			return valor;
+}
+
+
+int save_cidades(ControlCid cls) {
+	int valor=OK,i;
+	Nodo_ll aux;
+	Aresta aux2;
+	FILE *f,*h;
+	f=fopen("cities2.txt","w");
+	
+	
+	if(f==NULL ) {
+		perror("fopen");
+		valor=NON_ER;
+	}else{
+	
+	for (i=0;i<cls->cidades->tsize;i++) {
+		aux=cls->cidades->tabela[i];
+		
+		while (aux !=NULL) {
+		//	printf("%d\n",i);
+			
+			
+			Cidade a=(Cidade)(aux->data);
+			//printf("%d\n",a->ide);
+					aux2=cls->ligacoes->adj_list[a->ide];
+				//	printf("%d %s\n",a->ide,a->nome);
+					
+					//printf("%d\n",a->ide);
+				fprintf(f,"%d|%s|",a->ide,a->nome);
+			while(aux2!=NULL){
+					fprintf(f,"%d|",aux2->dest);
+					aux2=aux2->next;
+					
+				}
+				
+				fprintf(f,"\n");
+				aux = aux->next;
+			}
+				
+				
+			
+		}
+	}
+	return 0;
+}	
+
+
+int save_costs(ControlCid cls) {
+	int valor=OK,i;
+	Aresta aux;
+	char cv[MAXS],cv2[MAXS];
+	FILE *f;
+	f=fopen("costs2.txt","w");
+	if(f==NULL) {
+		perror("fopen");
+		valor=NON_ER;
+	}
+//	printf("%d",cls->ids);
+	for(i=0;i<cls->ligacoes->size;i++){
+		aux=cls->ligacoes->adj_list[i];			
+			while(aux!=NULL){	
+				
+				Custos novo =(Custos) aux->data;
+				if(novo!=NULL){
+				fprintf(f,"%d|%d|%d|%d|\n",i,aux->dest,novo->km,novo->custo);}
+				aux=aux->next;		
+			}
+				//printf("%d\n",i);
+		}	
+	
+	return 0;
+}	
+		
+/*	
 int main(){
 	int i=0;
 	ControlCid novas;
 	novoContCid(&novas,2000);
 	load_cidades(&novas,"cities.txt");
-	imprimetab(novas->cidades);
+	load_custos(&novas,"costs2.txt");
+	save_cidades(novas);
+	save_costs(novas);
+	
+//	printf("yy%dyy",novas->ids);
+	
+	//imprimetab(novas->cidades);
 	visualiza(novas->ligacoes);
-	int distancias[novas->ligacoes->size];
-	getMindist(1,&novas->ligacoes,distancias);
-//	for(i=0;i<novas->ligacoes->size;i++){
-//		printf("%d",distancias[i]);
-//	}
+
+/*	int distancias[novas->ids];
+	getMindist(1854,&(novas->ligacoes),distancias);
+	for(i=0;i<novas->ligacoes->size;i++){
+		printf("%d\n",distancias[i]);
+	}*/
 	
 	
-}
+//}

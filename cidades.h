@@ -31,6 +31,7 @@ typedef struct scidade{
 typedef struct sCustos{
 	
 	//char *tipo_transp;/*nome do transporte*/
+	int km;
 	int custo;/*custo de usar o tranporte*/
 	//struct sCustos *prox;/*proxo transporte neste caminho*/
 	

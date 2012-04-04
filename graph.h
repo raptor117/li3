@@ -65,12 +65,12 @@ int removeEdge(Graph *g,int origem);
 
 /*Converte o grafo que numa matrix em que tem os custos 
 REtorna Ok ou NO_INI*/
-int convertGraphtoMatrix(Graph *g,int array[(*g)->size][(*g)->size]);
+int convertGraphtoMatrix(Graph *g,int **array);
 
 /*Pega numa matriz calculada pela funcao anterior e menor distancia de s a todos 
 os outros pontos no array d
 Retorna OK ou NO_INI*/
-int dijkstra(int s,Graph g,int dist[g->size][g->size],int d[g->size]);
+int dijkstra(int s,Graph g,int **dist,int d[g->size]);
 
 /*Esta funcao utiliza as duas ultimas funcoes acima para calcula o camino mais curto entre s
 a todos os outros nodos

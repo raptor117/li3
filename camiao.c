@@ -214,7 +214,7 @@ int save_camioes(camioes cls) {
 		perror("fopen");
 		valor=NON_ER;
 	}
-	for (i=0;i<cls->ids;i++) {
+	for (i=0;i<cls->frota->tsize;i++) {
 		aux=cls->frota->tabela[i];
 		while (aux !=NULL) {
 			camiao a=((camiao)(aux->data));
@@ -224,7 +224,7 @@ int save_camioes(camioes cls) {
 	}
 	return 0;
 }
-
+/*
 int main(){
 	
 	camiao novo;
@@ -244,7 +244,7 @@ int main(){
 		InsereCamiao(novo,&frota);
 		
 		
-	}*/
+	}*//*
 	save_camioes(frota);
 	
 	imprimetab(frota->frota);

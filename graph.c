@@ -54,7 +54,7 @@ int add_lig(Graph *g, Aresta *root,void *data,int dest){
 	//printf("%p %p %d\n",*root,data,dest);
 	if(*root==NULL){valor=Cria_aresta(root,dest,data);}/*se for null cria*/
 	else{
-		if((*root)->dest==dest){ valor =(*g)->switx((*root)->data,data);}/*se for igual substitui a informacao*/
+		if((*root)->dest==dest){(*root)->data=data;}/*se for igual substitui a informacao*/
 		else{valor =add_lig(g,&(*root)->next,data,dest);}/*passa ao proximo elemento*/
 	}
 	return valor;
@@ -72,7 +72,7 @@ int visualiza(Graph g) {
 		for (i=0; i<g->size; i++) {
 			e=g->adj_list[i];
 			while (e) {
-				printf("|origem:%8d| destino:%8d  |\n",i,e->dest);
+				printf("|origem:%d|destino:%d|\n",i,e->dest);
 				g->imprime(e->data);
 				e = e->next;
 			}
@@ -158,7 +158,7 @@ int removeEdge(Graph *g,int origem){
 
 	
 	
-int convertGraphtoMatrix(Graph *g,int array[(*g)->size][(*g)->size]) {
+int convertGraphtoMatrix(Graph *g,int **array) {
 	int valor=OK;
 
 	if(*g==NULL || (*g)->adj_list==NULL) {
@@ -175,6 +175,7 @@ int convertGraphtoMatrix(Graph *g,int array[(*g)->size][(*g)->size]) {
 			e=(*g)->adj_list[i];			
 			while(e!=NULL) {				
 				array[i][e->dest]=(*g)->getVal(e->data);
+				
 				e=e->next;
 			}
 		}
@@ -185,7 +186,7 @@ int convertGraphtoMatrix(Graph *g,int array[(*g)->size][(*g)->size]) {
 	return 0;
 }
 
-int dijkstra(int s,Graph g,int dist[g->size][g->size],int d[g->size]) {
+int dijkstra(int s,Graph g,int **dist,int d[g->size]) {
 	int valor =OK;
 	if(g ==NULL) {
 		valor =NO_INI;
@@ -223,21 +224,43 @@ int dijkstra(int s,Graph g,int dist[g->size][g->size],int d[g->size]) {
 
 int getMindist(int source,Graph *g,int d[(*g)->size]) {
 	int valor=OK;
+	int i=0;
 	if(*g==NULL || (*g)->adj_list ==NULL) {
 		valor=NO_INI;
 	} else {
 		if(source <0 || source >(*g)->size) {
 			valor=NON_ER;
 		} else {
-			int custos[(*g)->size][(*g)->size];
-			int j[(*g)->size],i;
-			convertGraphtoMatrix(g,custos);/*coloca o grafo na matrix custos*/
-		//	dijkstra(source,*g,custos,j);/*calcula os caminhos mais curtos*/
+			int ncolumns;
+			int nrows=ncolumns=(*g)->size;
+			int **array;
+			array = malloc(nrows * sizeof(int *));
+			if(array == NULL) {
+				fprintf(stderr, "out of memory\n");
+				valor=NO_MEM;
+			}
+			for (i = 0; i < nrows; i++) {
+				array[i] = malloc(ncolumns * sizeof(int));
+				if(array[i] == NULL) {
+					fprintf(stderr, "out of memory\n");
+					valor=NO_MEM;
+									}
+			}
+			int l;
+			for(i=0;i<ncolumns;i++){
+				for(l=0;l<ncolumns;l++){
+					array[i][l]=rand()%100;
+				}
+			}
+			
+			int j[(*g)->size];
+			//printf("%d\n",(*g)->size);
+			convertGraphtoMatrix(g,array);/*coloca o grafo na matrix custos*/
+			dijkstra(source,*g,array,d);/*calcula os caminhos mais curtos*/
 		}
 	}
 	return valor;
 }
-
 
 int aumentaGraph(Graph g,int x){
 	int valor =OK;

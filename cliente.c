@@ -343,20 +343,23 @@ int load_users2(clientes *cls,char *path) {
 }
 int save_users(clientes cls) {
 	int valor=OK,handle,i;
-	Nodo_ll aux;
+	Nodo_ll aux,ant;
 	FILE *f;
 	f=fopen("users.txt","w");
 	if(f==NULL) {
 		perror("fopen");
 		valor=NON_ER;
 	}
-	for (i=0;i<cls->ids;i++) {
+	for (i=0;i<cls->nomes->tsize;i++) {
 		aux=cls->nomes->tabela[i];
 		while (aux !=NULL) {
+		
 			cliente a=((cliente)(aux->data));
+			
 			fprintf(f,"%s|%s|%s|%s;\n",a->cnb,a->nome,a->email,a->morada);
 			aux = aux->next;
 		}
+	
 	}
 	return 0;
 }
@@ -365,14 +368,17 @@ int main() {
 	clientes c;
 	novoContClie(&c);
 	load_users(&c,"users.txt");
-	int n;
-	void **data;
-	imprimetab(c->nomes);
-	procuraContrib(c,"9000025351",&data,&n);
-	printf("%d",n);
-	strncpy((((cliente)data[0])->nome),"rogerui",MAXS);
-	printf("caifba");
-	imprimetab(c->nomes);
-	// save_users(c);
+	
+//	load_users2(&c,"utilizadores.txt");
+	//int n;
+	//void **data;
+	printf("%d",c->ids);
+//	imprimetab(c->nomes);
+//	procuraContrib(c,"9000025351",&data,&n);
+//	printf("%d",n);
+//	strncpy((((cliente)data[0])->nome),"rogerui",MAXS);
+//	printf("caifba");
+//	imprimetab(c->nomes);
+	save_users(c);
 	return 1;
-}*/
+}
