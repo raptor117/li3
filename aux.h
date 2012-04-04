@@ -1,6 +1,9 @@
 #pragma once
 #define MAXS 100
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 /*
 Modulo auxiliar as bibliotecas, com funcoes que todas precisam.
 A maioria destas funcoes trabalham com strings 

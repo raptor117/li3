@@ -3,7 +3,7 @@
 #define OK 0 /*operacao realizada com sucesso*/
 #define NO_MEM 1 /*nao consegue alocar memoria*/
 #define NO_INI 2 /*uma estrutura nao foi inicializada*/
-#define NON_ER 3
+#define NON_ER 9
 #define IGUAL 5
 #define NO_FILE 6
 #define ENCONTROU 7

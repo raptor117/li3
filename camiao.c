@@ -42,14 +42,15 @@ int freeCamiao(void *a) {
 }
 
 char *keyCam(void *a) {
-	int valor=OK;
 	camiao aa;
 	aa= (camiao) a;
-	if(aa==NULL) {
-		valor=NO_INI;
-	} else {
+	char *matricula=(char*) malloc(MAXS*sizeof(char));
+	if(aa!=NULL) {
+		strncpy(matricula,aa->matricula,strlen(aa->matricula));/*foi alterado*/
+		} else {free(matricula);}
 	
-	return aa->matricula;}
+		return matricula;
+	
 }
 
 int NovaFrota(camioes *frota,double ncam) {
@@ -57,7 +58,7 @@ int NovaFrota(camioes *frota,double ncam) {
 	camioes nova= (camioes) malloc(sizeof(struct contCamioes));
 	/*aloca o espaco para a estutura*/
 	if(nova ==NULL) {
-		valor == NO_MEM;
+		valor = NO_MEM;
 	} else {
 		valor=NovaHash(ncam,&nova->frota,&compareCam,&freeCamiao,
 		                       &imprimeCam,&keyCam);
@@ -143,6 +144,7 @@ int removeCamiao(camioes frota,char *matricula){
 			remove_hash(&frota->frota,novo);}
 		free (novo);
 	}
+	return valor;
 	
 	
 }
@@ -162,7 +164,7 @@ int  searchCamiao (camioes frota,char *matricula,void ***elems,int *n) {
 
 
 int load_camioes(camioes *cls,char *path) {
-	int valor=OK,fdin;
+	int valor=OK;
 	char *buffer,*b;
 	buffer=malloc(200*sizeof(char));
 	b=buffer;
@@ -222,7 +224,7 @@ int save_camioes(camioes cls) {
 			aux = aux->next;
 		}
 	}
-	return 0;
+	return valor;
 }
 /*
 int main(){
@@ -237,16 +239,16 @@ int main(){
 	load_camioes(&frota,"trucks.txt");
 	
 	
-/*	for(i=0;i<20000;i++){
+	for(i=0;i<20000;i++){
 		gera_matric(matricula);
 		gera_custo(custo);
 		NovoCamiao(&novo,matricula,custo,"");
 		InsereCamiao(novo,&frota);
 		
 		
-	}*//*
+	}
 	save_camioes(frota);
 	
 	imprimetab(frota->frota);
 	
-}
+}*/

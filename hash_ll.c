@@ -103,7 +103,7 @@ int fHash(char *str,int tsize) {
 	int hash = 5381;
 	int c;
 	/*	printf("\n%s \t\t",str);*/
-	while (c = *str++)
+	while ((c = *str++))
 			            hash = ((hash << 5) + hash) + c;
 	/* hash * 33 + c */
 		//printf("kk%dkk\n",abs(hash%tsize));

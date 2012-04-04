@@ -1,10 +1,6 @@
 #include "aux.h"
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-
 void fflushstdin( void )
 {
     int c;
@@ -95,6 +91,7 @@ int fixString(char * strig,int    size) {
 	}
 	return 1;
 }
+/*
 void trim (char *s) {
 	int i;
 	while (isspace (*s)) s++;
@@ -102,5 +99,5 @@ void trim (char *s) {
 	for (i = strlen (s) - 1; (isspace (s[i])); i--) ;
 	// skip right side white spaces
 	s[i + 1] = '\0';
-}
+}*/
 

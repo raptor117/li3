@@ -253,8 +253,6 @@ int getMindist(int source,Graph *g,int d[(*g)->size]) {
 				}
 			}
 			
-			int j[(*g)->size];
-			//printf("%d\n",(*g)->size);
 			convertGraphtoMatrix(g,array);/*coloca o grafo na matrix custos*/
 			dijkstra(source,*g,array,d);/*calcula os caminhos mais curtos*/
 		}

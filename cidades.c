@@ -69,7 +69,6 @@ int  freeLig(void *a){
 	}
 	return valor;
 }
-
 int imprimeTransp(void *a){
 	int valor =OK;
 	Custos aa; 
@@ -311,7 +310,7 @@ int loadCusto(ControlCid cids,int orig,int dest,Custos c){
 		}
 	
 	
-	
+		return valor;
 }
 
 int loadCaminho(ControlCid cids,int orig,int dest) {
@@ -320,8 +319,8 @@ int loadCaminho(ControlCid cids,int orig,int dest) {
 		valor=NO_INI;
 	} else {
 	//	printf("%d %d\n",orig,dest);
-		int 
-			valor =insere_lig(&(cids->ligacoes),orig,dest,NULL);
+		
+			valor=insere_lig(&(cids->ligacoes),orig,dest,NULL);
 		}
 	
 	return valor;
@@ -329,7 +328,7 @@ int loadCaminho(ControlCid cids,int orig,int dest) {
 
 
 int load_custos(ControlCid *cls,char *path) {
-		int valor=OK,i;
+	int valor=OK;
 		char *buffer,*b;
 		buffer=malloc(200*sizeof(char));
 		b=buffer;
@@ -376,7 +375,7 @@ int load_custos(ControlCid *cls,char *path) {
 	
 	
 int load_cidades(ControlCid *cls,char *path) {
-			int valor=OK,i,k=0;
+		int valor=OK,i;
 			char *buffer,*b;
 			buffer=malloc(200*sizeof(char));
 			b=buffer;
@@ -444,7 +443,7 @@ int save_cidades(ControlCid cls) {
 	int valor=OK,i;
 	Nodo_ll aux;
 	Aresta aux2;
-	FILE *f,*h;
+	FILE *f;
 	f=fopen("cities2.txt","w");
 	
 	
@@ -488,7 +487,6 @@ int save_cidades(ControlCid cls) {
 int save_costs(ControlCid cls) {
 	int valor=OK,i;
 	Aresta aux;
-	char cv[MAXS],cv2[MAXS];
 	FILE *f;
 	f=fopen("costs2.txt","w");
 	if(f==NULL) {
@@ -521,16 +519,16 @@ int main(){
 	save_cidades(novas);
 	save_costs(novas);
 	
-//	printf("yy%dyy",novas->ids);
+	printf("yy%dyy",novas->ids);
 	
 	//imprimetab(novas->cidades);
 	visualiza(novas->ligacoes);
 
-/*	int distancias[novas->ids];
+	int distancias[novas->ids];
 	getMindist(1854,&(novas->ligacoes),distancias);
 	for(i=0;i<novas->ligacoes->size;i++){
 		printf("%d\n",distancias[i]);
-	}*/
+	}
 	
 	
-//}
+}*/

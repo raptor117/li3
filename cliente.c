@@ -1,5 +1,4 @@
 #include "cliente.h"
-#include <fcntl.h>
 int cmplN(void* a,void* b) {
 	int valor=OK;
 	cliente aa,bb;
@@ -68,28 +67,27 @@ int libcl(void *a) {
 	return OK;
 }
 char *keyN(void *elem) {
-	int valor =OK;
 	cliente aa;
-	if(aa=NULL) {
-		valor=NO_INI;
-	} else {
-		aa = (cliente) elem;
-		//	char *nome=(char *) malloc(MAXS*sizeof(char));
-		//	strncpy(nome,aa->nome,strlen(aa->nome));
-		return aa->nome;
-	}
+	aa = (cliente) elem;
+	char *nome=(char *) malloc(MAXS*sizeof(char));
+	
+	if(aa!=NULL) {
+		strncpy(nome,aa->nome,strlen(aa->nome));
+		} else {free(nome);}
+
+		return nome;
+
 }
 char *keyC(void *elem) {
-	int valor =OK;
+	char *contrib=(char *) malloc(MAXS*sizeof(char));
+	
 	cliente aa;
-	if(aa=NULL) {
-		valor =NO_INI;
-	} else {
-		aa = (cliente) elem;
-		//	char *contrib=(char *) malloc(MAXS*sizeof(char));
-		//	strncpy(contrib,aa->cnb,strlen(aa->cnb));
-		return aa->cnb;
-	}
+	aa = (cliente) elem;
+	
+	if(aa!=NULL) {
+		strncpy(contrib,aa->cnb,strlen(aa->cnb));
+		} else {free(contrib);	}
+		return contrib;
 }
 int impmov(void *a) {
 	int valor =OK;
@@ -202,6 +200,7 @@ int novoCliente(cliente *dest,char *nome,char *morada,char *email,char *contribu
 			*dest=novo;
 		}
 	}
+	return valor;
 }
 int insereCliente(cliente novo,clientes *cls) {
 	int valor=OK;
@@ -247,7 +246,7 @@ int procuraNome(clientes c,char *nome,void ***elems,int *n) {
 }
 
 int load_users(clientes *cls,char *path) {
-	int valor=OK,fdin;
+	int valor=OK;
 	char *buffer,*b;
 	buffer=malloc(200*sizeof(char));
 	b=buffer;
@@ -293,7 +292,7 @@ int load_users(clientes *cls,char *path) {
 	return valor;
 }
 int load_users2(clientes *cls,char *path) {
-	int valor=OK,fdin;
+	int valor=OK;
 	char *buffer,*b;
 	buffer=malloc(200*sizeof(char));
 	b=buffer;
@@ -342,8 +341,8 @@ int load_users2(clientes *cls,char *path) {
 	return valor;
 }
 int save_users(clientes cls) {
-	int valor=OK,handle,i;
-	Nodo_ll aux,ant;
+	int valor=OK,i;
+	Nodo_ll aux;
 	FILE *f;
 	f=fopen("users.txt","w");
 	if(f==NULL) {
@@ -369,16 +368,16 @@ int main() {
 	novoContClie(&c);
 	load_users(&c,"users.txt");
 	
-//	load_users2(&c,"utilizadores.txt");
-	//int n;
-	//void **data;
+	load_users2(&c,"utilizadores.txt");
+	int n;
+	void **data;
 	printf("%d",c->ids);
-//	imprimetab(c->nomes);
-//	procuraContrib(c,"9000025351",&data,&n);
-//	printf("%d",n);
-//	strncpy((((cliente)data[0])->nome),"rogerui",MAXS);
-//	printf("caifba");
-//	imprimetab(c->nomes);
+	imprimetab(c->nomes);
+	procuraContrib(c,"9000025351",&data,&n);
+	printf("%d",n);
+	strncpy((((cliente)data[0])->nome),"rogerui",MAXS);
+	printf("caifba");
+	imprimetab(c->nomes);
 	save_users(c);
 	return 1;
-}
+}*/
