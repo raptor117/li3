@@ -21,7 +21,7 @@ void head_Clientes(){
 void scan_Nome(char *nome){
 	printf("Introduza o nome do cliente: ");
 	fgets(nome,MAXS,stdin);
-    fixString(nome,MAXS);
+    fixString(nome,strlen(nome));
 	
 }
 

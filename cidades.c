@@ -35,10 +35,10 @@ int compareCid(void *a,void *b) {
     Cidade aa,bb;
     aa= (Cidade) a;
     bb= (Cidade) b;
-	if(a!=NULL && b !=NULL){
-		print("%s\n",aa->nome);
-		print("%s\n",bb->nome);
-	}
+	printf("%s\n",aa->nome);
+	printf("%s\n",bb->nome);
+	
+	
     if((strncmp(aa->nome,bb->nome,max(sizeString(aa->nome),sizeString(bb->nome)))==0))
 		{
         valor=IGUAL;
@@ -142,6 +142,7 @@ int novaCidade(Cidade *dest, char *nome) {
             valor=NO_MEM;
         } else {
 			nova->ide=0;
+			nova->nacedidas;
             strncpy(nova->nome,nome,sizeString(nome));
 	//	valor=	init_ll(&nova->camioes,&compareCam,&freeCamiao,&imprimeCam);
             *dest=nova;
@@ -303,7 +304,6 @@ int searchCity(ControlCid cids,char *nome,void ***elemes,int *n) {
 		Cidade cid;
 		novaCidade(&cid,nome);
 		valor=getElems(cids->cidades,cid,elemes,n,&compareCid);
-	//	printf("%d",*n);
 	}
     
     return valor;

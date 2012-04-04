@@ -23,15 +23,19 @@ void head_Localidades(){
 
 void scan_cidade_origem(char *nome){
 		fflushstdin();
-		printf("Introduza o nome da cidade origem: ");
+		printf("Introduza o nome da cidade origem:");
 		fgets(nome,MAXS,stdin);
+		fixString(nome,strlen(nome));
+		
 }
 
 
 void scan_cidade_destino(char *nome){
 		fflushstdin();
 		printf("Introduza o nome da cidade destino: ");
-		fgets(nome,MAXS,stdin);
+		fgets(nome,40,stdin);
+		fixString(nome,strlen(nome));
+		
 }
 
 void scan_dist(int *km){

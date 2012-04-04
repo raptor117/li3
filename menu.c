@@ -75,7 +75,7 @@ void menu_loc(Trans transitorio){
 			else{printf("Caminho nao inserido,verifique se os dados esta correctos\n");}
            
         }else if( opcao == 2){
-			scan_cidade_origem(origem);
+			scan_cidade_origem(origem);printf("x%sx",origem);
 			Cidade novo;
 			novaCidade(&novo,origem);
 			valor=insereCidade(novo,&transitorio->cidz);
@@ -191,7 +191,7 @@ void menu(Trans transitorio) {
 	char cid[MAXS];
 	system("clear");
 	logo();
-//	while(opcao !=4){
+	while(opcao !=4){
 	opcao = escolher(&start);
 	
 		if( opcao == 1) {menu_cam(transitorio);}
@@ -201,10 +201,10 @@ void menu(Trans transitorio) {
 				if( opcao == 3) {menu_cli(transitorio);}
 				}
 			}
-	//	}
+		}
 			
-	//	system("clear");
-	//	logo();
+		system("clear");
+		logo();
 		
 }
 

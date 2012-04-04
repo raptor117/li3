@@ -202,13 +202,14 @@ int nElems(Nodo_ll k,void *data,int *n,	int (*cmp) (void*, void*)) {
 	return valor;
 }
 int getElems(Hash hash,void *data, void ***elems,int *n,int (*cmp) (void*, void*)) {
-	int valor =OK,num=0,pos=fHash(hash->key(data),hash->tsize),k=0;
-	//printf("%s %d",hash->key(data),hash->tsize);
+	int valor =OK,num=0,pos,k=0;
+	pos==fHash(hash->key(data),hash->tsize);
 	void **lista;
+	printf("%s\n",hash->key(data));
 
 	if(hash ==NULL ||hash->tabela ==NULL || data ==NULL || n ==NULL) {
 		valor=NO_INI;
-	} else {
+		} else {
 		/*Inicialicacao dos elementos*/
 		Nodo_ll aux=hash->tabela[pos];
 		nElems(hash->tabela[pos],data,&num,cmp);

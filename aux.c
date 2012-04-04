@@ -91,6 +91,9 @@ int fixString(char * strig,int    size) {
 	}
 	return 1;
 }
+
+
+
 /*
 void trim (char *s) {
 	int i;

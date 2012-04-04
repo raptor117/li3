@@ -23,6 +23,7 @@ typedef struct scidade{
    
     int ide;/*id privado do camiao*/
     char *nome;/*nome da cidade*/
+	int nacedidas;/*numero de vezes que a cidade foi acedida*/
     //genLL  *camioes;/*todos os camioes na cidade*/
    
     }*Cidade;
@@ -41,6 +42,8 @@ typedef struct sCustos{
 typedef struct cidadeControl{
    
     int ids;/*ultimo id usado*/
+	Cidade mais_aced[10];
+	Cidade mennos_aced[10];
     Hash cidades;/*tabela de hash com as cidades*/
     Graph ligacoes;/*grapho com as ligacoes entre as cidades*/
    
