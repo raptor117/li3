@@ -15,7 +15,7 @@
 #include "hash_ll.h"
 #include "aux.h"
 #include <stdio.h>
-#include <String.h>
+#include <string.h>
 
 /*Estrutura de um um camiao*/
 typedef struct scamiao {

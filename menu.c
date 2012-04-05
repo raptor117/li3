@@ -53,7 +53,7 @@ void menu_cli(Trans trs){
 			//scan_Nome(ident);
 		    // scan_cidade_origem(origem);
 			//scan_cidade_destino(destino);
-			realiza_movimento(trs,"Cavadas",dest,ident);
+			realiza_movimento(trs,"Cavadas","Gradil","9000017412");
 			
 			
 			}	

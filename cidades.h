@@ -50,6 +50,7 @@ typedef struct cidadeControl{
 	Cidade mais_aced[10];/*dez cidades mais acedidas*/
 	Cidade menos_aced[10];/*dez cidades menos acedidas*/
     Hash cidades;/*tabela de hash com as cidades*/
+    Hash cidid;/*tabela de hash ordenada pelo idids*/
     Graph ligacoes;/*grapho com as ligacoes entre as cidades*/
    
     }*ControlCid;

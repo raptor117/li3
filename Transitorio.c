@@ -23,7 +23,7 @@ int loadData(Trans *dest){
 	int valor=OK;
 	valor=load_users(&(*dest)->cliez,"users.txt");
 	valor=load_cidades(&(*dest)->cidz,"cities.txt");
-	valor=load_custos(&(*dest)->cidz,"costs.txt");
+	valor=load_custos(&(*dest)->cidz,"cost.txt");
 	valor=load_camioes(&(*dest)->cmz,"trucks.txt");
 	
 	return valor;
@@ -31,18 +31,35 @@ int loadData(Trans *dest){
 
 
 int realiza_movimento(Trans trs,char *origem,char *dest,char *contrib){
+
 	int valor =OK;
 	camiao transporte;
-	int source,d[trs->cidz->ids];
-	valor =getId(trs->cidz,origem,&source);
+	int source,destino,nc,ncc,custo;
+	int d[trs->cidz->ids];
+	ControlCid aux=trs->cidz;
+	valor =getId(trs->cidz,origem,&source);/*id da origem*/
+	valor =getId(trs->cidz,dest,&destino);/*id do destino*/
+	void **cid;
+	void **clie;
+    valor=searchCity(trs->cidz,dest,&cid,&nc);
+    valor=procuraContrib(trs->cliez,contrib,&clie,&ncc);
 	getMindist(source,&trs->cidz->ligacoes,d);
-	
-	printf("%s-%d",origem,source);
-	if(trs ==NULL ||origem ==NULL ||dest ==NULL || contrib==NULL){valor=NO_MEM;}
+	/*custo da viagem*/ 
+	int i=0;
+
+
+	if(trs ==NULL ||origem ==NULL ||dest ==NULL || contrib==NULL && nc==1 && ncc==1){valor=NO_MEM;}
 	else{
-		if(getCamiao(trs->cmz,origem,transporte)==NO_HEAD){/*buscar*/}
+		if(getCamiao(trs->cmz,origem,transporte)==NO_HEAD){getCamiaoProx(trs->cmz,transporte,d,destino);}/*pesquisa de camiao*/
 		else{
-			;
+		  //  ((Cidade)cid[0])->nacedidas++;
+			//setLocalidade(transporte,dest);/*da uma nova localidade ao camiao,a localidade destino*/
+			//InsertCamiaoCid(((Cidade)cid[0]),transporte);/*insere o camiao na cidade*/
+		    //InsertClienteCid((Cidade)cid[0],(cliente)clie[0]);/*insere um cliente na cidade*/
+		    //actualizaStats(trs->cidz,((Cidade)cid[0]));
+		    //custo=atoi((transporte->custokm))*d[destino];
+		    //registaMovimento(trs->cliez,contrib,&custo);
+		    //printf("%d",custo);   
 		}
 		
 		

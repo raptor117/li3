@@ -178,6 +178,16 @@ int  searchCamiao (camioes frota,char *matricula,void ***elems,int *n) {
 	return valor;
 }
 
+int setLocalidade(camiao cam, char *localidade){
+    int valor =OK;
+    if(cam == NULL || localidade ==NULL){valor ==NO_INI;}
+    else{
+            strncpy(cam->local,localidade,strlen(localidade));
+        
+    }
+    return valor;
+}
+
 
 int load_camioes(camioes *cls,char *path) {
 	int valor=OK;

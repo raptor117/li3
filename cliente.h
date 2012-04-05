@@ -106,7 +106,7 @@ int insereCliente(cliente novo,clientes *cls);
 
 /*Regista um servico de um cliente
 Retorna OK oi NO_INI ou NO_MEM ou ENCONTROU*/
-	int registaMovimento(clientes cls,char *contrib,int *valor);
+int registaMovimento(clientes cls,char *contrib,int *valor);
 
 /*mostra o ultimo servico realidade pelo cliente
 Retorna OK, NO_INI ou ENCONTROU*/

@@ -26,7 +26,7 @@ typedef struct cstack{
 
 /*cria um nova estrutura de Stack
 Retorna OK ou NO_INI*/
-	int StackCreate(Stack *stac,int (*libertar)(void*),int (*imprime)(void *));
+int StackCreate(Stack *stac,int (*libertar)(void*),int (*imprime)(void *));
 
 /*apaga todos os elementos da stack
 Retorna OK ou NO_INI*/

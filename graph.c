@@ -204,8 +204,10 @@ int convertGraphtoMatrix(Graph *g,int **array) {
 		}
 		for (i=0;i<(*g)->size;i++) {
 			e=(*g)->adj_list[i];			
-			while(e!=NULL) {				
+			while(e!=NULL) {
+			    
 				array[i][e->dest]=(*g)->getVal(e->data);
+			//	printf("%d\n",array[i][e->dest]);    
 				
 				e=e->next;
 			}
@@ -283,6 +285,7 @@ int getMindist(int source,Graph *g,int d[(*g)->size]) {
 			convertGraphtoMatrix(g,array);/*coloca o grafo na matrix custos*/
 			dijkstra(source,*g,array,d);/*calcula os caminhos mais curtos*/
 		for (i = 0; i < nrows; i++) {
+		//printf("%d\n",d[i]);
                         free(array[i]);}
                     free(array);
 		}

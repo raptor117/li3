@@ -53,8 +53,6 @@ void gera_custo(char *dst) {
 
 
 
-
-
 void clear_string(char *dst,int n){
 	int i;
 	for(i=0;i<n;i++){

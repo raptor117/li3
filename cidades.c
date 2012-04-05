@@ -6,8 +6,10 @@ int getCustotrans(void *a){
 	else{
     	Custos aa;
     	aa= (Custos) a;
+
 		/*sendo aa o nodo ja existente apenas altera o custo desse pelo que existe em b*/
-		valor=aa->custo;
+		valor=(aa->custo)*(aa->km);
+		
 	}
 	return valor;
 	
@@ -20,7 +22,6 @@ int switx(void *a,void *b){
     	Custos aa,bb;
     	aa= (Custos) a;
     	bb= (Custos) b;
-	
 		/*sendo aa o nodo ja existente apenas altera o custo desse pelo que existe em b*/
 		aa->custo=bb->custo;
 	}
@@ -38,6 +39,21 @@ int compareCid(void *a,void *b) {
 
 
     if((strncmp(aa->nome,bb->nome,max(sizeString(aa->nome),sizeString(bb->nome)))==0))
+		{
+        valor=IGUAL;
+    }
+    return valor;
+}
+
+
+int compareCidid(void *a,void *b) {
+    int valor =OK;
+    Cidade aa,bb;
+    aa= (Cidade) a;
+    bb= (Cidade) b;
+
+
+    if(aa->ide==bb->ide)
 		{
         valor=IGUAL;
     }
@@ -104,6 +120,17 @@ char * keyCidade(void *elem) {
 }
 
 
+char * keyCidadeid(void *elem) {
+    Cidade aa;
+    
+    char *ide=(char *) malloc(MAXS*sizeof(char));
+    aa = (Cidade) elem;
+    if(aa!=NULL){ sprintf(ide,"%d",10,aa->ide);}
+    return ide;
+}
+
+
+
 
 
  int novoContCid(ControlCid *cntcid,int nCidades) {
@@ -114,6 +141,8 @@ char * keyCidade(void *elem) {
     } else {
        
  		valor=NovaHash(nCidades,&novo->cidades,&compareCid,&freeCid,&imprimeCid,&keyCidade);
+ 		valor=NovaHash(nCidades,&novo->cidid,&compareCidid,&freeCid,&imprimeCid,&keyCidadeid);
+
         valor=inicializa(nCidades,&novo->ligacoes,&freeLig,&imprimeTransp, sizeof(struct sCustos),&switx,&getCustotrans);
         
 		if(novo->cidades==NULL || novo->ligacoes==NULL) {
@@ -184,7 +213,7 @@ int novaCidade(Cidade *dest, char *nome) {
             valor=NO_MEM;
         } else {
 			nova->ide=0;
-			nova->nacedidas;
+			nova->nacedidas=0;;
             strncpy(nova->nome,nome,strlen(nome));
             nova->nome[strlen(nome)]='\0';
 			valor=StackCreate(&nova->clientes,&libcl,&impcl);
@@ -195,6 +224,25 @@ int novaCidade(Cidade *dest, char *nome) {
     return valor;
 }
 
+
+
+int novaCidadeid(Cidade *dest,int id) {
+    int valor =OK;
+    int i;
+    Cidade nova =(Cidade) malloc(sizeof(struct scidade));
+    if(nova ==NULL) {
+        valor =NO_MEM;
+    } else {
+  
+			nova->ide=id;
+			nova->nacedidas=0;
+			valor=StackCreate(&nova->clientes,&libcl,&impcl);
+	    	valor=init_ll(&nova->camioes,&compareCamCusto,&freeCamiao,&imprimeCam);
+            *dest=nova;
+        
+    }
+    return valor;
+}
 
 int loadCidade(Cidade *dest,int id, char *nome) {
     int valor =OK;
@@ -209,8 +257,10 @@ int loadCidade(Cidade *dest,int id, char *nome) {
             valor=NO_MEM;
         } else {
 			nova->ide=id;
-            strncpy(nova->nome,nome,sizeString(nome));
-	//	valor=	init_ll(&nova->camioes,&compareCam,&freeCamiao,&imprimeCam);
+            strncpy(nova->nome,nome,strlen(nome));
+            nova->nome[strlen(nome)]='\0';
+			valor=StackCreate(&nova->clientes,&libcl,&impcl);
+	    	valor=init_ll(&nova->camioes,&compareCamCusto,&freeCamiao,&imprimeCam);
             *dest=nova;
         }
     }
@@ -229,6 +279,7 @@ int insereCidade(Cidade cid,ControlCid *cids) {
         (*cids)->ids++;
 
         Insere_Hash(&(*cids)->cidades,cid);
+        Insere_Hash(&(*cids)->cidid,cid);
 		//printf("%d\n",(*cids)->ids);
     }
     return valor;
@@ -238,13 +289,14 @@ int getId(ControlCid cids,char *cid,int *id){
 	int valor =OK;
 	int n;
 	void **data;
+	
 	if(cids ==NULL || cids->cidades ==NULL || cids->ligacoes ==NULL || cid ==NULL){
 		valor =NO_INI;
 	}
 	else{
 		Cidade novo;
 		novaCidade(&novo,cid);
-		printf("x%sx\n",novo->nome);
+		//printf("x%sx\n",novo->nome);
 		valor=getElems(cids->cidades,novo,&data,&n,&compareCid);printf("%d",n);
 		if(n==1){*id= ((Cidade)data[0])->ide;/*imprimeCid((Cidade)data[0])*/;}
 		
@@ -390,12 +442,147 @@ int getCamiao(ControlCid cids,char *orig,camiao cam){
 	return valor;
 	
 }
-/*
+
+int InsertCamiaoCid(Cidade cid,camiao cam){
+    int valor=OK;
+    
+    if(cid ==NULL || cam ==NULL){valor =NO_INI;}
+    else{
+            insert_LL(cid->camioes,&(cid->camioes)->root,cid);
+            cid->nacedidas++;/*actualiza o numero de vezes acedida*/
+    }
+}
+
+
+int InsertClienteCid(Cidade cid,cliente cls){
+    int valor=OK;
+    
+    if(cid ==NULL || cls ==NULL){valor =NO_INI;}
+    else{
+            StackPush(cid->clientes,cls);
+    }
+    return valor;
+}
+
+
+int getNome(ControlCid cids,int id,char *nome){
+    int valor =OK;
+    if(cids ==NULL || cids->cidades==NULL ){valor =NO_INI;}
+    else{
+        void **data;
+        int n;
+        Cidade nova;
+        novaCidadeid(&nova,id);
+        valor=getElems(cids->cidid,nova,&data,&n,&compareCidid);
+        if(n==1){strncpy(nome,((Cidade)data[0])->nome,strlen(((Cidade)data[0])->nome));}
+        else{valor=NO_CID;}
+    
+    }
+    return valor;
+
+}
+
+
+int getMenorArray(int size,int d[size]){
+        int n;
+        int i=0,menor=d[0];
+        for(i=0;i<size;i++){
+        
+	   
+	   if(d[i]<menor){menor=d[i];n=i;}}
+
+	  
+   
+    return n;
+}
+
+
+int getMaiorArray(int size,int d[size]){
+        int n;
+        int i=0,maior=d[0];
+        for(i=0;i<size;i++){
+        
+	   
+	   if(d[i]>maior){maior=d[i];n=i;}}
+
+	  
+   
+    return n;
+}
+int actualizaStats(ControlCid cidz,Cidade cid) {
+	int valor=OK,i,j,maior=0,val[10],n,breack=0;
+	if(cidz ==NULL || cidz->cidades==NULL || cid ==NULL) {
+		valor =NO_INI;
+	} else {
+	
+	    /*primeiro ve o numero de acedidos e mais do que algum no que estao os mais acedidos ,se for muda*/
+		for (i=0;i<10 && breack==0;i++) {
+			if(cidz->mais_aced[i]!=NULL) {
+				val[i]=(cidz->mais_aced[i])->nacedidas;
+			} else {
+				breack=1;
+				cidz->mais_aced[i]=cid;
+			}
+		}
+		if(breack==0) {
+			n=getMenorArray(10,val);
+			if(valor>val[n]) {
+				(cidz->mais_aced[n])=cid;
+			} else {
+				maior =1;
+			}
+		}
+			    /*Se nao esta inserido nos mais_aced vemos se pode ser nos menos_aced*/
+		breack=0;
+		if(maior ==1) {
+			for (i=0;i<10 && breack==0;i++) {
+				if(cidz->menos_aced[i]!=NULL) {
+					val[i]=(cidz->menos_aced[i])->nacedidas;
+				} else {
+					breack==1;
+					cidz->menos_aced[i]=cid;
+				}
+			}
+			if(breack==0) {
+				n=getMaiorArray(10,val);
+				if(valor<val[n]) {
+					(cidz)->menos_aced[n]=cid;
+				}
+			}
+		}
+	}
+	return valor;
+}
+
+
+
+int getMenor(int size,int d[size],int percorridos[size]){
+        int menor=d[0];
+        int i=0,n=0;
+        for(i=0;i<size;i++){
+            if(d[i]<menor && percorridos[i]==0){
+                menor=d[i];
+                n=i;
+            }
+        }
+    percorridos[n]=1;
+    return n;
+}
 int getCamiaoProx(ControlCid cids,camiao cam,int d[]){
 	
+    int free[cids->ids],valor=0,breack=0;
+    int i,id=1;
+    char nome[MAXS];
+    
+    for(i=0;i<cids->ids;i++){free[i]=0;}
+    
+    while(cam ==NULL && id !=0){
+            id=getMenor(cids->ids,d,free);
+            getNome(cids,id,nome);
+            getCamiao(cids,nome,cam);
+    }
 	
-	
-}*/
+}
 
 
 int novoCusto(Custos *c,int km,int custo){
