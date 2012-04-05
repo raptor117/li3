@@ -306,6 +306,26 @@ int getId(ControlCid cids,char *cid,int *id){
 }
 
 
+int loadCamiao(ControlCid cids,camioes frota,char *nome,char *matricula){
+    int valor =OK;
+    
+    if(cids==NULL || nome ==NULL || matricula ==NULL){valor =NO_INI;}
+    else{
+        int nc,ncc;
+        void **cidade;
+        void **elems;
+        valor=searchCity(cids,nome,&cidade,&nc);
+        valor=searchCamiao(frota,matricula,&elems,&ncc);
+        if(nc==1 && ncc==1){
+           valor=InsertCamiaoCid(((Cidade) cidade[0]),((camiao)elems[0]));
+        }
+        
+    }
+    return valor;
+
+
+}
+
 int insereCaminho(ControlCid cids,char *orig,char *dest,int km,int custo) {
 	int valor=OK,ori,des;
 	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL || 
