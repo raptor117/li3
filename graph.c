@@ -264,6 +264,7 @@ int getMindist(int source,Graph *g,int d[(*g)->size]) {
 		} else {
 			int ncolumns;
 			int nrows=ncolumns=(*g)->size;
+			//int array[(*g)->size][(*g)->size];
 			int **array;
 			array = malloc(nrows * sizeof(int *));
 			if(array == NULL) {
@@ -277,17 +278,16 @@ int getMindist(int source,Graph *g,int d[(*g)->size]) {
 					valor=NO_MEM;
 									}
 			}
-			int l;
-			for(i=0;i<ncolumns;i++){
-				for(l=0;l<ncolumns;l++){
-					array[i][l]=rand()%100;
-				}
-			}
+			
 			
 			convertGraphtoMatrix(g,array);/*coloca o grafo na matrix custos*/
 			dijkstra(source,*g,array,d);/*calcula os caminhos mais curtos*/
+		for (i = 0; i < nrows; i++) {
+                        free(array[i]);}
+                    free(array);
 		}
 	}
+	
 	return valor;
 }
 

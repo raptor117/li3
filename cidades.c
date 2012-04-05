@@ -35,10 +35,8 @@ int compareCid(void *a,void *b) {
     Cidade aa,bb;
     aa= (Cidade) a;
     bb= (Cidade) b;
-	printf("%s\n",aa->nome);
-	printf("%s\n",bb->nome);
-	
-	
+
+
     if((strncmp(aa->nome,bb->nome,max(sizeString(aa->nome),sizeString(bb->nome)))==0))
 		{
         valor=IGUAL;
@@ -94,7 +92,7 @@ int imprimeCid (void *a) {
     if(aa==NULL) {
         valor=NO_INI;
     } else {
-        printf("|Cidade nº%d|\n|Nome:%s|\n\n",aa->ide,aa->nome);
+        printf("|Cidade nº%d|\n|Nome:x%sx|\n\n",aa->ide,aa->nome);
     }
     return valor;
 }
@@ -106,8 +104,10 @@ char * keyCidade(void *elem) {
 }
 
 
+
+
  int novoContCid(ControlCid *cntcid,int nCidades) {
-    int valor;
+    int valor,i;
     ControlCid novo=(ControlCid) malloc(sizeof(struct cidadeControl));
     if(novo==NULL) {
         valor =NO_INI;
@@ -124,27 +124,71 @@ char * keyCidade(void *elem) {
         } else {
             novo->ids=0;
             *cntcid=novo;
+			for(i=0;i<10;i++){
+				novo->mais_aced[i]=NULL;
+				novo->menos_aced[i]=NULL;
+			}
         }
     }
     return valor;
 }
 
+int maisAcedidas(ControlCid c){
+	int valor=OK,i;
+	if(c==NULL){valor =NO_INI;}
+	else{
+		for(i=0;i<10;i++){
+			valor=imprimeCid(c->mais_aced[i]);
+		}
+	}
+	
+	return valor;
+	
+}
+
+int menosAcedidas(ControlCid c){
+	int valor=OK,i;
+	if(c==NULL){valor =NO_INI;}
+	else{
+		for(i=0;i<10;i++){
+			valor=imprimeCid(c->menos_aced[i]);
+		}
+	}
+	
+	return valor;
+	
+}
+int libertaString(void *a){
+	int valor=OK;
+	
+	if(a==NULL){valor =NO_INI;}
+	else{
+	char *aa;
+		aa=(char*) a;
+		free(aa);
+	}
+	return valor;
+}
+
 
 int novaCidade(Cidade *dest, char *nome) {
     int valor =OK;
+    int i;
     Cidade nova =(Cidade) malloc(sizeof(struct scidade));
     if(nova ==NULL) {
         valor =NO_MEM;
     } else {
-        nova->nome=(char*) malloc(sizeString(nome)*sizeof(char));
+        nova->nome=(char*) malloc(strlen(nome)*sizeof(char));
         if(nova->nome ==NULL) {
             free(nova);
             valor=NO_MEM;
         } else {
 			nova->ide=0;
 			nova->nacedidas;
-            strncpy(nova->nome,nome,sizeString(nome));
-	//	valor=	init_ll(&nova->camioes,&compareCam,&freeCamiao,&imprimeCam);
+            strncpy(nova->nome,nome,strlen(nome));
+            nova->nome[strlen(nome)]='\0';
+			valor=StackCreate(&nova->clientes,&libcl,&impcl);
+	    	valor=init_ll(&nova->camioes,&compareCamCusto,&freeCamiao,&imprimeCam);
             *dest=nova;
         }
     }
@@ -200,8 +244,9 @@ int getId(ControlCid cids,char *cid,int *id){
 	else{
 		Cidade novo;
 		novaCidade(&novo,cid);
-		valor=getElems(cids->cidades,novo,&data,&n,&compareCid);
-		if(n==1){*id= ((Cidade)data[0])->ide;}
+		printf("x%sx\n",novo->nome);
+		valor=getElems(cids->cidades,novo,&data,&n,&compareCid);printf("%d",n);
+		if(n==1){*id= ((Cidade)data[0])->ide;/*imprimeCid((Cidade)data[0])*/;}
 		
 	}
 	return valor;
@@ -257,6 +302,8 @@ int mudarCustoCid(ControlCid cids,char *orig,char *dest, int custo,int km) {
 }
 
 
+
+
 int removerCidade(ControlCid cids,char *nome) {
 	int valor=OK;
 	int orig;
@@ -309,42 +356,46 @@ int searchCity(ControlCid cids,char *nome,void ***elemes,int *n) {
     return valor;
 }
 
-
-
-/*
-int existeCidade(ControlCid cids, char *nome){
+int imprimeCliez(ControlCid cids,char *nome){
+	
 	int valor=OK;
-    if(cids ==NULL || cids->cidades ==NULL || nome ==NULL) {
-        valor =NO_INI;
-    } else {
-		Cidade cid;
-		novaCidade(&cid,nome);
-		valor=getElem(cids->cidades,(void *)&cid,&compareCid);
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL||nome ==NULL) {
+		valor=NO_INI;
+	} else {
+		void **data;
+		int n;
+		valor=searchCity(cids,nome,&data,&n);
+		if(n==1){valor=print(((Cidade)data[0])->clientes);}
+		else{valor=NO_CID;}
+		
+	
+	}
+	return valor;
 
+}
+
+int getCamiao(ControlCid cids,char *orig,camiao cam){
+	
+	int valor=OK;
+	if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL||orig ==NULL) {
+		valor=NO_INI;
+	} else {
+			void **data;
+			int n;
+			valor=searchCity(cids,orig,&data,&n);
+			if(n==1){valor=get_head(((Cidade)data[0])->camioes,cam);}
+			else{valor=NO_CID;}
 		}
-    
-    return valor;
+	
+	return valor;
 	
 }
-
-
-
-
-int removerCaminho(ControlCid cids,int ido,int idd) {
-    int valor=OK;
-    if(cids ==NULL || cids->cidades==NULL || cids->ligacoes==NULL) {
-        valor=NO_INI;
-    } else {
-        valor =removeAresta(&(cids->ligacoes),ido,idd);
-    }
-    return valor;
-}
-
-
-
-
-
-*/
+/*
+int getCamiaoProx(ControlCid cids,camiao cam,int d[]){
+	
+	
+	
+}*/
 
 
 int novoCusto(Custos *c,int km,int custo){
@@ -433,9 +484,7 @@ int load_custos(ControlCid *cls,char *path) {
 		}
 		return valor;
 	}
-	
-	
-	
+		
 int load_cidades(ControlCid *cls,char *path) {
 		int valor=OK,i;
 			char *buffer,*b;

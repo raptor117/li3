@@ -100,13 +100,14 @@ int insertNodo(Hash cont,Nodo_ll *head,void *data) {
 	return valor;
 }
 int fHash(char *str,int tsize) {
+   // printf("yyy%syyy%d\n",str,tsize);
 	int hash = 5381;
 	int c;
 	/*	printf("\n%s \t\t",str);*/
 	while ((c = *str++))
 			            hash = ((hash << 5) + hash) + c;
 	/* hash * 33 + c */
-		//printf("kk%dkk\n",abs(hash%tsize));
+	//printf("kk%dkk\n",abs(hash%tsize));
 	return abs(hash%tsize);
 }
 
@@ -118,6 +119,7 @@ int imprimetab(Hash hash) {
 		valor=NO_INI;
 	} else {
 		for (i=0;i<hash->tsize;i++) {
+		    printf("%d\n",i);
 			aux=hash->tabela[i];
 			while(aux) {
 				valor =hash->print(aux->data);
@@ -203,25 +205,26 @@ int nElems(Nodo_ll k,void *data,int *n,	int (*cmp) (void*, void*)) {
 }
 int getElems(Hash hash,void *data, void ***elems,int *n,int (*cmp) (void*, void*)) {
 	int valor =OK,num=0,pos,k=0;
-	pos==fHash(hash->key(data),hash->tsize);
+	char *nome=hash->key(data);
+	pos=fHash(nome,hash->tsize);
 	void **lista;
-	printf("%s\n",hash->key(data));
+	printf("x%sx\n",nome);
 
 	if(hash ==NULL ||hash->tabela ==NULL || data ==NULL || n ==NULL) {
 		valor=NO_INI;
 		} else {
+		
 		/*Inicialicacao dos elementos*/
 		Nodo_ll aux=hash->tabela[pos];
 		nElems(hash->tabela[pos],data,&num,cmp);
 		lista=(void **)malloc((num)*sizeof(void*));
 		/*ciclo de procura dos elementos*/
-		while(aux!=NULL) {
+		for(aux;aux!=NULL;aux=aux->next) {
 			if(cmp(aux->data,data)==IGUAL) {printf("Entrou");
 				lista[k]=aux->data;
 				/*guardar no array*/
 				k++;
 			}
-			aux=aux->next;
 		}
 		*elems=lista;
 		*n=k;

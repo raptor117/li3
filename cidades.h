@@ -4,6 +4,7 @@
 #define NO_MEM 1 /*nao consegue alocar memoria*/
 #define NO_INI 2 /*uma estrutura nao foi inicializada*/
 #define IGUAL 5
+#define NO_FILE 6
 #define ENCONTROU 7
 #define NO_CID 8
 #define NON_ER 9
@@ -11,9 +12,11 @@
 
 
 #include "aux.h"
+#include "stack.h"
 #include "hash_ll.h"
-#include "graph.h"
+#include "cliente.h"
 #include "camiao.h"
+#include "graph.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "LL.h"
@@ -24,9 +27,11 @@ typedef struct scidade{
     int ide;/*id privado do camiao*/
     char *nome;/*nome da cidade*/
 	int nacedidas;/*numero de vezes que a cidade foi acedida*/
-    //genLL  *camioes;/*todos os camioes na cidade*/
+	Stack clientes;/*clientes que transportaram algo para esta cidade*/
+    genLL camioes;/*todos os camioes na cidade ordenados por custo*/
    
     }*Cidade;
+
 
 /*estrutura de uma ligacao entre cidades*/
 typedef struct sCustos{
@@ -42,8 +47,8 @@ typedef struct sCustos{
 typedef struct cidadeControl{
    
     int ids;/*ultimo id usado*/
-	Cidade mais_aced[10];
-	Cidade mennos_aced[10];
+	Cidade mais_aced[10];/*dez cidades mais acedidas*/
+	Cidade menos_aced[10];/*dez cidades menos acedidas*/
     Hash cidades;/*tabela de hash com as cidades*/
     Graph ligacoes;/*grapho com as ligacoes entre as cidades*/
    

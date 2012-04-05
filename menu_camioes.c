@@ -18,7 +18,10 @@ void scan_localidade(char *localidade){
 }
 
 void scan_custoKM(char *km){
+ 
 	fflushstdin();
+
+
 	printf("Introduza o custo por KM do camiao: ");
 	fgets(km,MAXS,stdin);
 	

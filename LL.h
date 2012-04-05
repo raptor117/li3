@@ -8,7 +8,9 @@
 #define MAIOR 4
 #define IGUAL 5
 #define MENOR 6
-#define ENCONTROU 7
+#define ENCONTROU 7 
+#define NO_HEAD 10 
+
 
 /*nodo de uma lista ligada*/
 typedef struct sLL{
@@ -21,7 +23,7 @@ typedef struct sGLL{
 	int (*ll_cmp) (void*, void*);/*funcao de comparacao*/
 	int (*remove_data) (void*);/*funcao de remover data*/
 	int (*print) (void*);/*funcao de imprimir data*/
-        int ocupado;
+   	int ocupado;
 	LL root;
 }*genLL;
 

@@ -9,12 +9,14 @@ void logo(){
 		
 }
 
-void menu_cli(Trans transitorio){
+void menu_cli(Trans trs){
     int opcao;
     unsigned int contrib;
 	char ident[MAXS];
+	char origem[MAXS],dest[MAXS];
+	
 	do{
-        system("clear");
+      //  system("clear");
 		
         opcao = escolher(&clients);
         
@@ -34,7 +36,7 @@ void menu_cli(Trans transitorio){
 			scanf("%s",ident);
 			printf("\n");
 			searchNome(cls,ident);*/
-			
+ 
 		}else if( opcao == 5){
 			/*printf("Introduza o numero de contribuinte do cliente: ");
 			scanf("%d",&contrib);
@@ -48,10 +50,15 @@ void menu_cli(Trans transitorio){
 			/* cliente mais importante */
 			
 		}else if (opcao == 8) {
-			/* encomendas */
-		}	
+			//scan_Nome(ident);
+		    // scan_cidade_origem(origem);
+			//scan_cidade_destino(destino);
+			realiza_movimento(trs,"Cavadas",dest,ident);
+			
+			
+			}	
 		
-		system("clear"); 
+		//system("clear"); 
         /* Este ciclo é terminado quando o utilizador escolha a opção 9 */
     }while(opcao != 9);
 }
@@ -123,15 +130,16 @@ void menu_loc(Trans transitorio){
 
 			
 		}else if( opcao == 8){
-			
+			maisAcedidas(transitorio->cidz);
 			
 	    }else if( opcao == 9){
-			/* Localidade mais requisitada */
-			
+			menosAcedidas(transitorio->cidz);
 		}else if( opcao == 10){
-			/* Localidade menos requisitada */
+			scan_cidade_origem(origem);
+			imprimeCliez(transitorio->cidz,origem);
+			
 		}	//	system("clear"); 
-	}while(opcao != 13);
+	}while(opcao != 11);
 }
 	
 /*as coisas do menu estao a funcionar, retirar editar e o ciclo escaxa*/	

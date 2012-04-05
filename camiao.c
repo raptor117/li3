@@ -31,7 +31,23 @@ int compareCam(void *a,void *b) {
 	}
 	return valor;
 }
-
+int compareCamCusto(void *a,void *b){
+	int valor =OK;
+	camiao aa,bb;
+	aa= (camiao) a;
+	bb= (camiao) b;
+	if(aa ==NULL || bb ==NULL) {
+		valor =NO_INI;
+	} else {
+		if(atoi(aa->custokm)< atoi(bb->custokm)) valor=MENOR;
+		else{valor=MAIOR;}
+			
+		}
+	
+	
+	return valor;
+	
+}
 
 int freeCamiao(void *a) {
 	int valor=1;

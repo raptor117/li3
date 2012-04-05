@@ -8,8 +8,8 @@ int novo_transitorio(Trans *dest){
 	if(novo==NULL){valor=NO_INI;
 					free(novo);}
 	else{
-		NovaFrota(&novo->cmz,10000);
-		novoContCid(&novo->cidz,10000);
+		NovaFrota(&novo->cmz,1000);
+		novoContCid(&novo->cidz,1000);
 		novoContClie(&novo->cliez);
 		*dest=novo;
 		
@@ -29,6 +29,27 @@ int loadData(Trans *dest){
 	return valor;
 }
 
+
+int realiza_movimento(Trans trs,char *origem,char *dest,char *contrib){
+	int valor =OK;
+	camiao transporte;
+	int source,d[trs->cidz->ids];
+	valor =getId(trs->cidz,origem,&source);
+	getMindist(source,&trs->cidz->ligacoes,d);
+	
+	printf("%s-%d",origem,source);
+	if(trs ==NULL ||origem ==NULL ||dest ==NULL || contrib==NULL){valor=NO_MEM;}
+	else{
+		if(getCamiao(trs->cmz,origem,transporte)==NO_HEAD){/*buscar*/}
+		else{
+			;
+		}
+		
+		
+	}
+	
+	return valor;
+}
 
 /*funcao utilizada para atribuir uma cidade aleatoria aos camioesx
 int atribCity(Trans dest) {

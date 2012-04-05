@@ -56,13 +56,44 @@ int insert_LL_s(genLL cont,LL *head,void *data){
 
 int insert_LL(genLL cont,LL *head,void *data){
 	int valor =OK;
-	if(*head==NULL){cont->ocupado++;valor=Cria_elem(head,data);}
+	LL novo,ant,act;
+	act=*head;
+	Cria_elem(&novo,data);
+	if(novo==NULL){valor=NO_INI;}
 	else{
-			valor= insert_LL(cont,&(*head)->next,data);}
-	
+		while(act!=NULL && cont->ll_cmp(data,(*head)->data)==MAIOR ){
+			
+			ant=act;
+			act=act->next;
+		}
+		if(ant == NULL){
+			novo->next=*head;
+			*head=NULL;
+		}
+		else{
+			novo->next=act;
+			ant->next=novo;
+		}
+	}
 	
 }
 
+int get_head(genLL ptr,void *data){
+	int valor =OK;
+	LL aux;
+	if(ptr==NULL){valor =NO_INI;}
+	else{
+		if(ptr->root!=NULL){
+		data=ptr->root->data;
+	 	aux=ptr->root;
+		ptr->root=ptr->root->next;
+		free(aux);
+		ptr->ocupado --;}
+		else{valor=NO_HEAD;}
+	}
+	return valor;
+	
+}
 int get_ll(genLL ptr, void **data) {
 	int valor=OK;
 	if(ptr==NULL || data==NULL) {
@@ -77,6 +108,8 @@ int get_ll(genLL ptr, void **data) {
 	}
 	return valor;
 }
+
+
 int remove_ll(genLL ptr, void *data) {
 	int valor=OK;
 	LL aux = ptr->root, prev = NULL;

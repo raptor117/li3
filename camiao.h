@@ -3,7 +3,9 @@
 #define OK 0 /*operacao realizada com sucesso*/
 #define NO_MEM 1 /*nao consegue alocar memoria*/
 #define NO_INI 2 /*uma estrutura nao foi inicializada*/
+#define MAIOR 4
 #define IGUAL 5
+#define MENOR 6
 #define NON_ER 9
 #define NO_FILE 6
 #define ENCONTROU 7
@@ -34,8 +36,13 @@ typedef struct contCamioes {
 int imprimeCam (void *a);
 
 /*Recebe dois apontadores para dois camioes, e compara a sua matricula.
- Retorna MENOR,IGUAL ou MAIOR consoante a matricula*/
+ Retorna IGUAL  ou OK consoante a matricula*/
 int compareCam(void *a,void *b);
+
+
+/*Recebe dois apontadores para dois camioes, e compara o seu cuso por km.
+ Retorna MAIOR our MENOR*/
+int compareCamCusto(void *a,void *b);
 
 /*Recebe um apontador para um camiao e liberta a estrutura*/
 int freeCamiao(void *a);
