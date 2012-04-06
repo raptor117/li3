@@ -67,7 +67,19 @@ int realiza_movimento(Trans trs,char *origem,char *dest,char *contrib){
 	
 	return valor;
 }
-int loadCamiao
+
+
+int atribCams(Trans dest){
+
+
+
+
+
+
+
+
+}
+
 /*funcao utilizada para atribuir uma cidade aleatoria aos camioesx
 int atribCity(Trans dest) {
 	char citis[(int)dest->cidz->cidades->tsize][MAXS];
