@@ -55,20 +55,28 @@ int insert_LL_s(genLL cont,LL *head,void *data){
 }
 
 int insert_LL(genLL cont,LL *head,void *data){
+	
 	int valor =OK;
-	LL novo,ant,act;
+	LL novo,ant=NULL,act;
 	act=*head;
 	Cria_elem(&novo,data);
-	if(novo==NULL){valor=NO_INI;}
+	//printf("%p\n",act);
+	//printf("%p--%d--%p",act,act->next);
+
+
+	//printf("%p--%d--%p",act,cont->ll_cmp(data,(*head)->data),act->next);
+	
+	if(novo==NULL){valor=NO_MEM;}
 	else{
 		while(act!=NULL && cont->ll_cmp(data,(*head)->data)==MAIOR ){
-			
+
 			ant=act;
 			act=act->next;
 		}
 		if(ant == NULL){
 			novo->next=*head;
-			*head=NULL;
+			
+			*head=novo;
 		}
 		else{
 			novo->next=act;

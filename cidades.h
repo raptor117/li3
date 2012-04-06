@@ -152,3 +152,6 @@ Retorna OK,NO_INI ou NO_CID
 */
 int removerCidade(ControlCid cids,char *nome);
 
+int loadCamiaocity(camioes frota,ControlCid,char *nome,char *matricula);
+
+

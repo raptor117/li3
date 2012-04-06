@@ -25,7 +25,9 @@ int loadData(Trans *dest){
 	valor=load_cidades(&(*dest)->cidz,"cities.txt");
 	valor=load_custos(&(*dest)->cidz,"cost.txt");
 	valor=load_camioes(&(*dest)->cmz,"trucks.txt");
-	
+	valor=loadcity_trucks((*dest)->cidz,(*dest)->cmz,"trucks.txt");/*este tem que ser chamado depois de
+	                                                                a load camioes e load cidades ja foi chamada*/
+	printf("%d\n",valor);
 	return valor;
 }
 
@@ -68,17 +70,6 @@ int realiza_movimento(Trans trs,char *origem,char *dest,char *contrib){
 	return valor;
 }
 
-
-int atribCams(Trans dest){
-
-
-
-
-
-
-
-
-}
 
 /*funcao utilizada para atribuir uma cidade aleatoria aos camioesx
 int atribCity(Trans dest) {

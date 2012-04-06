@@ -208,7 +208,6 @@ int getElems(Hash hash,void *data, void ***elems,int *n,int (*cmp) (void*, void*
 	char *nome=hash->key(data);
 	pos=fHash(nome,hash->tsize);
 	void **lista;
-	printf("x%sx\n",nome);
 
 	if(hash ==NULL ||hash->tabela ==NULL || data ==NULL || n ==NULL) {
 		valor=NO_INI;
@@ -220,7 +219,7 @@ int getElems(Hash hash,void *data, void ***elems,int *n,int (*cmp) (void*, void*
 		lista=(void **)malloc((num)*sizeof(void*));
 		/*ciclo de procura dos elementos*/
 		for(aux;aux!=NULL;aux=aux->next) {
-			if(cmp(aux->data,data)==IGUAL) {printf("Entrou");
+			if(cmp(aux->data,data)==IGUAL) {
 				lista[k]=aux->data;
 				/*guardar no array*/
 				k++;
