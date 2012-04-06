@@ -61,8 +61,8 @@ int user(char *ln, Trans transitorio)
 	
 	cliente c;
 	novoContClie(c);
-	novoCliente(&c,nome,morada,cont);
-	insereCliente(c,&(transitorio->cliez));
+	//novoCliente(&c,nome,morada,cont);
+	//insereCliente(c,&(transitorio->cliez));
 	//imprimetab(transitorio->cliez);
 	
 	
