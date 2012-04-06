@@ -9,7 +9,9 @@ int main() {
 
 	novo_transitorio(&trans);
 	loadData(&trans);
-	imprimetab(trans->cidz->cidades);
+	atribServico(trans);
+
+	//imprimetab(trans->cidz->cidades);
 	//atribCity(trans);	
 	//menu(trans);
 	

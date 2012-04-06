@@ -43,7 +43,13 @@ typedef struct cliente_cont{
 	Hash contrib;/*tabela organizada por contribuinte*/
 	
 }*clientes;
-	
+
+typedef struct  sServico{
+    char *cidade_orig;
+    char *cidade_dest;
+    int preco;
+
+}*servico;
 
 /*compara os clientes atraves do nome e é usada pela funcao de hash para inserir os 
 elementos

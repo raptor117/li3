@@ -49,7 +49,9 @@ int libserv(void *a) {
 	if(a==NULL) {
 		valor=NO_INI;
 	} else {
-		int *aa=(int*) a;
+		servico aa=(servico) a;
+		free(aa->cidade_orig);
+		free(aa->cidade_dest);
 		free(aa);
 	}
 	return valor;
@@ -91,12 +93,12 @@ char *keyC(void *elem) {
 }
 int impmov(void *a) {
 	int valor =OK;
-	int *aa;
+	servico aa;
 	if(aa==NULL) {
 		valor =NO_INI;
 	} else {
-		aa=(int *) a;
-		printf("|%u|\n",*aa);
+		aa=(servico) a;
+		printf("|Origem:%s|Destino:%s|Custo:%d|\n",aa->cidade_orig,aa->cidade_dest,aa->preco);
 	}
 	return valor;
 }
